@@ -7,7 +7,12 @@ require("dotenv").config();
 app.use(express.json());
 
 // 2. Import routes for api
-const watsonRoutes = require("./routes/api/watson");
+const watsonRoutes = require("./src/components/watson/api/watson");
+
+const planRoutes = require('./src/components/plan/api/plan.api')
+
+app.use('/api/plan', planRoutes)
+
 // 2.1 Direct requests to /api/watson to Watson Routes
 app.use("/api/watson", watsonRoutes);
 

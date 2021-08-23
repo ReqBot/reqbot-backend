@@ -18,23 +18,23 @@ exports.create = function(req, res) {
     }
 };
 
-/*
+
 
 exports.findAll = function(req, res) {
-  Employee.findAll(function(err, employee) {
+    Plan.findAll(function(err, plan) {
     console.log('controller')
     if (err)
     res.send(err);
-    console.log('res', employee);
-    res.send(employee);
+    console.log('res', plan);
+    res.send(plan);
   });
 };
 
 exports.findById = function(req, res) {
-    Employee.findById(req.params.id, function(err, employee) {
+    Plan.findById(req.params.id, function(err, plan) {
         if (err)
         res.send(err);
-        res.json(employee);
+        res.json(plan);
     });
 };
 
@@ -43,10 +43,10 @@ exports.update = function(req, res) {
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
     }else{
-        Employee.update(req.params.id, new Employee(req.body), function(err, employee) {
+        Plan.update(req.params.id, new Plan(req.body), function(err, plan) {
             if (err)
             res.send(err);
-            res.json({ error:false, message: 'Employee successfully updated' });
+            res.json({ error:false, message: 'Plan successfully updated' });
         });
     }
   
@@ -54,9 +54,9 @@ exports.update = function(req, res) {
 
 
 exports.delete = function(req, res) {
-  Employee.delete( req.params.id, function(err, employee) {
+    Plan.delete( req.params.id, function(err, plan) {
     if (err)
     res.send(err);
-    res.json({ error:false, message: 'Employee successfully deleted' });
+    res.json({ error:false, message: 'Plan successfully deleted' });
   });
-};*/
+};

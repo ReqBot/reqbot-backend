@@ -21,9 +21,9 @@ Plan.create = function (newPlan, result) {
     });
 };
 
-/*
+
 Plan.findById = function (id, result) {
-    dbConn.query("Select * from employees where id = ? ", id, function (err, res) {
+    dbConn.query("Select * from plan where idPlan = ? ", id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -34,19 +34,19 @@ Plan.findById = function (id, result) {
 };
 
 Plan.findAll = function (result) {
-    dbConn.query("Select * from employees", function (err, res) {
+    dbConn.query("Select * from plan", function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
         } else {
-            console.log('employees : ', res);
+            console.log('plan : ', res);
             result(null, res);
         }
     });
 };
 
-Plan.update = function (id, employee, result) {
-    dbConn.query("UPDATE employees SET first_name=?,last_name=?,email=?,phone=?,organization=?,designation=?,salary=? WHERE id = ?", [employee.first_name, employee.last_name, employee.email, employee.phone, employee.organization, employee.designation, employee.salary, id], function (err, res) {
+Plan.update = function (id, plan, result) {
+    dbConn.query("UPDATE plan SET nombre=?,descripcion=?,costo=?,fechaCaducidad=? WHERE idPlan = ?", [plan.nombre, plan.descripcion, plan.costo, plan.fechaCaducidad, id], function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -57,7 +57,7 @@ Plan.update = function (id, employee, result) {
 };
 
 Plan.delete = function (id, result) {
-    dbConn.query("DELETE FROM employees WHERE id = ?", [id], function (err, res) {
+    dbConn.query("DELETE FROM plan WHERE idPlan = ?", [id], function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -65,5 +65,7 @@ Plan.delete = function (id, result) {
             result(null, res);
         }
     });
-};*/
+};
+
+
 module.exports = Plan;

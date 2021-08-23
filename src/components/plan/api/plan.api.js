@@ -3,21 +3,19 @@ const express = require('express')
 const router = express.Router()
 const planController = require('../controller/plan.controller');
 
-// Create a new employee
+// Create a new plan
 router.post('/', planController.create);
 
-/*
-// Retrieve all employees
-router.get('/', employeeController.findAll);
+// Retrieve all plan
+router.get('/', planController.findAll);
 
+// Retrieve a single plan with id
+router.get('/:id', planController.findById);
 
-// Retrieve a single employee with id
-router.get('/:id', employeeController.findById);
+// Update a plan with id
+router.put('/:id', planController.update);
 
-// Update a employee with id
-router.put('/:id', employeeController.update);
-
-// Delete a employee with id
-router.delete('/:id', employeeController.delete);*/
+// Delete a plan with id
+router.delete('/:id', planController.delete);
 
 module.exports = router

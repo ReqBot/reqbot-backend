@@ -9,7 +9,11 @@ const fetch = require('node-fetch');
 const {
   default: axios
 } = require('axios');
-//const axios = require('axios').default;
+
+const cors = require('cors')
+
+
+router.use(cors())
 
 // 2. Create Instance of Assistant
 

@@ -12,13 +12,10 @@ const planRoutes = require('./src/components/plan/api/plan.api');
 
 const watsonRoutes = require("./src/components/watson/api/watson");
 
-const translateRoutes = require('./src/components/translate/api/translate.api')
-
 app.use('/api/plan', planRoutes)
 
 app.use("/api/watson", watsonRoutes);
 
-app.use("/api/translate", translateRoutes);
 
 // 3. Start server
 const port = process.env.PORT || 5000;

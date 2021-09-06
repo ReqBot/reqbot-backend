@@ -12,7 +12,6 @@ const {
 
 const cors = require('cors')
 
-
 router.use(cors())
 
 // 2. Create Instance of Assistant

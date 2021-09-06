@@ -1,27 +1,17 @@
-// 1. Import dependencies
-const express = require("express");
-const router = express.Router();
-const AssistantV2 = require("ibm-watson/assistant/v2");
-const {
-    IamAuthenticator
-} = require("ibm-watson/auth");
-const {
-    default: axios
-} = require('axios');
+'use strict';
 
-// 2. Create Instance of Assistant
+const assistant = require('../model/watson.model');
 
-// 2.1 First authenticate
-const authenticator = new IamAuthenticator({
-    apikey: process.env.WATSON_ASSISTANT_APIKEY,
-});
+exports.getSession = function(req, res) {
+    assistant.findAll(function(err, plan) {
+    console.log('controller')
+    if (err)
+    res.send(err);
+    console.log('res', plan);
+    res.send(plan);
+  });
+};
 
-// 2.2 Connect to assistant
-const assistant = new AssistantV2({
-    version: "2021-08-21",
-    authenticator: authenticator,
-    url: process.env.WATSON_ASSISTANT_URL,
-});
 
 // 3. Route to Handle Session Tokens
 // GET /api/watson/session
@@ -44,7 +34,7 @@ router.get("/session", async (req, res) => {
 // POST /api/watson/message
 router.post("/message", async (req, res) => {
     try {
-      /*  const initialData = {
+        const initialData = {
             q: req.body.q,
             source: "es",
             target: "en"
@@ -52,7 +42,7 @@ router.post("/message", async (req, res) => {
 
         const axiosres = await axios.post("https://libretranslate.de/translate", initialData)
         const translatedESEN = axiosres.data?.translatedText ?? '';
-*/
+
         payload = {
             assistantId: process.env.WATSON_ASSISTANT_ID,
             sessionId: req.headers.session_id,
@@ -70,7 +60,7 @@ router.post("/message", async (req, res) => {
             success: true,
             message: ibmMessage ?? ''
         })
-      /*  // Translate for user
+        // Translate for user
         const finalRes = await axios.post("https://libretranslate.de/translate", {
             q: ibmMessage,
             source: "en",
@@ -80,7 +70,7 @@ router.post("/message", async (req, res) => {
         res.status(200).send({
             success: true,
             message: finalRes.data.translatedText ?? ''
-        });*/
+        });
 
     } catch (err) {
         console.log(err);

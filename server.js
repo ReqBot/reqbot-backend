@@ -8,12 +8,22 @@ app.use(express.json());
 
 // 2. Import routes for api
 
+const historiaUsuarioRoutes = require('./src/components/historiausuario/api/historiausuario.api');
+const logsRoutes = require('./src/components/historiausuario/api/logs.api');
+const organizacionRoutes = require('./src/components/organizacion/api/organizacion.api');
 const planRoutes = require('./src/components/plan/api/plan.api');
+const proyectoRoutes = require("./src/components/proyecto/api/proyecto.api");
+const ticketRoutes = require("./src/components/ticket/api/ticket.api");
+const usuarioRoutes = require("./src/components/usuario/api/usuario.api");
+const watsonRoutes = require("./src/components/logs/api/watson");
 
-const watsonRoutes = require("./src/components/watson/api/watson");
-
-app.use('/api/plan', planRoutes)
-
+app.use('/api/historiausuario', historiaUsuarioRoutes)
+app.use("/api/logs", logsRoutes);
+app.use('/api/organizacion', organizacionRoutes)
+app.use("/api/plan", planRoutes);
+app.use('/api/proyecto', proyectoRoutes)
+app.use("/api/ticket", ticketRoutes);
+app.use("/api/usuario", usuarioRoutes);
 app.use("/api/watson", watsonRoutes);
 
 

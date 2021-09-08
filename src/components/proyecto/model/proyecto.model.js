@@ -4,12 +4,12 @@ var dbConn = require('../../../database/db.config');
 //proyecto object create
 var Proyecto = function (proyecto) {
     this.nombre = proyecto.nombre;
-    this.siglas = proyecto.siglas;
-    this.descripcion = proyecto.descripcion;
-    this.imagen = proyecto.imagen;
-    this.colorPrimario = proyecto.colorPrimario;
-    this.colorSecundario = proyecto.colorSecundario;
-    this.idPlan = proyecto.idPlan;
+    this.fechaModificacion = new Date(proyecto.fechaModificacion);
+    this.etiqueta = proyecto.etiqueta;
+    this.estado = proyecto.estado;
+    this.numeroDeHistorias = proyecto.numeroDeHistorias;
+    this.numeroUsuarios = proyecto.numeroUsuarios;
+    this.idOrganizacion = proyecto.idOrganizacion;
 };
 
 Proyecto.create = function (newproyecto, result) {
@@ -49,14 +49,14 @@ Proyecto.findAll = function (result) {
 };
 
 Proyecto.update = function (id, proyecto, result) {
-    dbConn.query("UPDATE proyecto SET nombre=?,fechaModificacion=?,etiqueta=?,estado=?,numeroDeHistorias=?,colorSecundario=?,idPlan=? WHERE idproyecto = ?",
+    dbConn.query("UPDATE proyecto SET nombre=?,fechaModificacion=?,etiqueta=?,estado=?,numeroDeHistorias=?,numeroUsuarios=?,idOrganizacion=? WHERE idProyecto = ?",
         [   proyecto.nombre,
-            proyecto.siglas,
-            proyecto.descripcion,
-            proyecto.imagen,
-            proyecto.colorPrimario,
-            proyecto.colorSecundario,
-            proyecto.idPlan,
+            proyecto.fechaModificacion,
+            proyecto.etiqueta,
+            proyecto.estado,
+            proyecto.numeroDeHistorias,
+            proyecto.numeroUsuarios,
+            proyecto.idOrganizacion,
             id
         ],
         function (err, res) {

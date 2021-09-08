@@ -45,6 +45,8 @@ router.get("/session", async (req, res) => {
   }
 });
 
+
+
 // 4. Handle Messages
 // POST /api/watson/message
 router.post("/message", async (req, res) => {
@@ -70,7 +72,6 @@ router.post("/message", async (req, res) => {
     // If successs
     const ibmRes = await assistant.message(payload);
     const ibmMessage = ibmRes["result"].output.generic[0].text;
-
     // Translate for user
     const finalRes = await axios.post("https://libretranslate.de/translate", {
       q: ibmMessage,

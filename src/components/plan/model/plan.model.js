@@ -6,7 +6,7 @@ var Plan = function (plan) {
     this.nombre = plan.nombre;
     this.descripcion = plan.descripcion;
     this.costo = plan.costo;
-    this.fechaCaducidad = new Date();
+    this.fechaCaducidad = new Date(plan.fechaCaducidad);
 };
 
 Plan.create = function (newPlan, result) {

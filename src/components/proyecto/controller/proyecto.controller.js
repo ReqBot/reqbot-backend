@@ -49,7 +49,6 @@ exports.update = function(req, res) {
             res.json({ error:false, message: 'Proyecto successfully updated' });
         });
     }
-  
 };
 
 

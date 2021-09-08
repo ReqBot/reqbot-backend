@@ -7,7 +7,7 @@ var HistoriaUsuario = function (historiausuario) {
     this.rol = historiausuario.rol;
     this.funcionalidad = historiausuario.funcionalidad;
     this.resultado = historiausuario.resultado;
-    this.fechaModificacion = historiausuario.fechaModificacion;
+    this.fechaModificacion = new Date(historiausuario.fechaModificacion);
     this.modificadoPor = historiausuario.modificadoPor;
     this.idProyecto = historiausuario.idProyecto;
 };

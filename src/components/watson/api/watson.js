@@ -46,11 +46,13 @@ router.get("/session", async (req, res) => {
 });
 
 
-
 // 4. Handle Messages
 // POST /api/watson/message
+
+
 router.post("/message", async (req, res) => {
   try {
+
     const initialData = {
       q: req.body.q,
       source: "es",
@@ -69,9 +71,10 @@ router.post("/message", async (req, res) => {
       },
     };
 
-    // If successs
+
     const ibmRes = await assistant.message(payload);
     const ibmMessage = ibmRes["result"].output.generic[0].text;
+
     // Translate for user
     const finalRes = await axios.post("https://libretranslate.de/translate", {
       q: ibmMessage,
@@ -79,19 +82,54 @@ router.post("/message", async (req, res) => {
       target: "es"
     });
 
+    const Data = function (data) {
+      this.message = data.message;
+      this.intent = data.intent;
+      this.entity = data.entity;
+      this.value = data.value;
+    };
+    Data.message = finalRes.data.translatedText ?? '';
+
+    //Data.intent = ibmRes["result"].output.intents[0].intent ?? '';
+
+    if (ibmRes["result"].output.intents.length != 0) {
+      Data.intent = ibmRes["result"].output.intents[0].intent;
+    } else {
+      Data.intent = '';
+    }
+
+    if (ibmRes["result"].output.entities.length != 0) {
+      Data.entity = ibmRes["result"].output.entities[0].entity;
+    } else {
+      Data.entity = '';
+    }
+
+    if (ibmRes["result"].output.entities.length != 0) {
+      Data.value = ibmRes["result"].output.entities[0].value;
+    } else {
+      Data.value = '';
+    }
+
     res.status(200).send({
       success: true,
-      message: finalRes.data.translatedText ?? ''
+      //message: finalRes.data.translatedText ?? ''
+      data: {
+        message: Data.message,
+        intent: Data.intent,
+        entity: Data.entity,
+        value: Data.value
+      }
     });
 
   } catch (err) {
     console.log(err);
     res.status(500).send({
       success: false,
-      message: "There was an error processing your request."
+      message: "Ocurrió un error."
     });
   }
 });
+
 
 // 5. Export routes
 module.exports = router;

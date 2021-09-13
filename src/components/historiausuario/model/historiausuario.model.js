@@ -10,6 +10,7 @@ var HistoriaUsuario = function (historiausuario) {
     this.fechaModificacion = new Date(historiausuario.fechaModificacion);
     this.modificadoPor = historiausuario.modificadoPor;
     this.idProyecto = historiausuario.idProyecto;
+    this.estado = historiausuario.estado;
 };
 
 HistoriaUsuario.create = function (newhistoriausuario, result) {
@@ -48,8 +49,32 @@ HistoriaUsuario.findAll = function (result) {
     });
 };
 
+HistoriaUsuario.findByPendientes = function (result) {
+    dbConn.query("Select * from historiausuario where estado='Pendiente'", function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('historiausuario : ', res);
+            result(null, res);
+        }
+    });
+};
+
+HistoriaUsuario.findByAprobados = function (result) {
+    dbConn.query("Select * from historiausuario where estado='Aprobado'", function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('historiausuario : ', res);
+            result(null, res);
+        }
+    });
+};
+
 HistoriaUsuario.update = function (id, historiausuario, result) {
-    dbConn.query("UPDATE historiausuario SET nombre=?,rol=?,funcionalidad=?,resultado=?,fechaModificacion=?,modificadoPor=?,idProyecto=? WHERE idHistoriaUsuario = ?",
+    dbConn.query("UPDATE historiausuario SET nombre=?,rol=?,funcionalidad=?,resultado=?,fechaModificacion=?,modificadoPor=?,idProyecto=?, estado=? WHERE idHistoriaUsuario = ?",
         [   historiausuario.nombre,
             historiausuario.rol,
             historiausuario.funcionalidad,
@@ -57,6 +82,7 @@ HistoriaUsuario.update = function (id, historiausuario, result) {
             historiausuario.fechaModificacion,
             historiausuario.modificadoPor,
             historiausuario.idProyecto,
+            historiausuario.estado,
             id
         ],
         function (err, res) {

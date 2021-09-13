@@ -38,6 +38,27 @@ exports.findById = function(req, res) {
 };
 
 
+exports.findByPendientes = function(req, res) {
+    HistoriaUsuario.findByPendientes(function(err, historiausuario) {
+    console.log('controller')
+    if (err)
+    res.send(err);
+    console.log('res', historiausuario);
+    res.send(historiausuario);
+  });
+};
+
+exports.findByAprobados = function(req, res) {
+    HistoriaUsuario.findByAprobados(function(err, historiausuario) {
+    console.log('controller')
+    if (err)
+    res.send(err);
+    console.log('res', historiausuario);
+    res.send(historiausuario);
+  });
+};
+
+
 exports.update = function(req, res) {
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });

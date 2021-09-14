@@ -2,7 +2,9 @@
 const express = require('express')
 const router = express.Router()
 const planController = require('../controller/plan.controller');
+const cors = require('cors')
 
+router.use(cors())
 // Create a new plan
 router.post('/', planController.create);
 

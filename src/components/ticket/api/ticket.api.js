@@ -2,7 +2,9 @@
 const express = require('express')
 const router = express.Router()
 const ticketController = require('../controller/ticket.controller');
+const cors = require('cors')
 
+router.use(cors())
 // Create a new ticket
 router.post('/', ticketController.create);
 

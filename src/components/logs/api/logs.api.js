@@ -2,7 +2,9 @@
 const express = require('express')
 const router = express.Router()
 const logsController = require('../controller/logs.controller');
+const cors = require('cors')
 
+router.use(cors())
 // Create a new logs
 router.post('/', logsController.create);
 

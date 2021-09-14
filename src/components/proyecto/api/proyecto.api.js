@@ -2,7 +2,9 @@
 const express = require('express')
 const router = express.Router()
 const proyectoController = require('../controller/proyecto.controller');
+const cors = require('cors')
 
+router.use(cors())
 // Create a new proyecto
 router.post('/', proyectoController.create);
 

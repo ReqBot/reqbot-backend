@@ -36,6 +36,18 @@ Proyecto.findById = function (id, result) {
     });
 };
 
+Proyecto.findByOrganizacion = function (id, result) {
+    dbConn.query("Select * from proyecto where idOrganizacion = ? ", id, function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+        } else {
+            result(null, res);
+        }
+    });
+};
+
+
 Proyecto.findAll = function (result) {
     dbConn.query("Select * from proyecto", function (err, res) {
         if (err) {

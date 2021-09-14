@@ -2,6 +2,7 @@
 const express = require('express')
 const router = express.Router()
 const historiausuarioController = require('../controller/historiausuario.controller');
+const cors = require('cors')
 
 router.use(cors())
 
@@ -9,16 +10,16 @@ router.use(cors())
 router.post('/', historiausuarioController.create);
 
 // Retrieve all historiausuario
-router.get('/', historiausuarioController.findAll);
+router.get('/pendientes', historiausuarioController.findByPendientes);
+
+// Retrieve all historiausuario
+router.get('/aprobados', historiausuarioController.findByAprobados);
 
 // Retrieve a single historiausuario with id
 router.get('/:id', historiausuarioController.findById);
 
 // Retrieve list historiausuario with estado "pendiente"
-router.get('/pendientes', historiausuarioController.findByPendientes);
-
-// Retrieve list historiausuario with estado "pendiente"
-router.get('/aprobados', historiausuarioController.findByAprobados);
+router.get('/', historiausuarioController.findAll);
 
 // Update a historiausuario with id
 router.put('/:id', historiausuarioController.update);

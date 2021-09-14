@@ -38,6 +38,14 @@ exports.findById = function(req, res) {
     });
 };
 
+exports.findByOrganizacion = function(req, res) {
+    Proyecto.findByOrganizacion(req.params.id, function(err, proyecto) {
+        if (err)
+        res.send(err);
+        res.json(proyecto);
+    });
+};
+
 
 exports.update = function(req, res) {
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){

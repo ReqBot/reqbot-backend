@@ -38,7 +38,7 @@ HistoriaUsuario.findById = function (id, result) {
 };
 
 HistoriaUsuario.findAll = function (result) {
-    dbConn.query("Select * from historiausuario", function (err, res) {
+    dbConn.query('Select * from historiausuario', function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -50,7 +50,7 @@ HistoriaUsuario.findAll = function (result) {
 };
 
 HistoriaUsuario.findByPendientes = function (result) {
-    dbConn.query("Select * from historiausuario where estado='Pendiente'", function (err, res) {
+    dbConn.query('Select * from historiausuario where estado="Pendiente"', function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -62,7 +62,7 @@ HistoriaUsuario.findByPendientes = function (result) {
 };
 
 HistoriaUsuario.findByAprobados = function (result) {
-    dbConn.query("Select * from historiausuario where estado='Aprobado'", function (err, res) {
+    dbConn.query('Select * from historiausuario where estado="Aprobado"', function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);

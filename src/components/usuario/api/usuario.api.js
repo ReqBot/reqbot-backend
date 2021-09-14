@@ -14,6 +14,9 @@ router.get('/', usuarioController.findAll);
 // Retrieve a single usuario with id
 router.get('/:id', usuarioController.findById);
 
+// Retrieve all Usuarios by Organizacion
+router.get('/organizacion/:id', usuarioController.findByOrganizacion);
+
 // Update a usuario with id
 router.put('/:id', usuarioController.update);
 

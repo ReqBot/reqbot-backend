@@ -47,6 +47,18 @@ Usuario.findAll = function (result) {
     });
 };
 
+Usuario.findByOrganizacion = function (id,result) {
+    dbConn.query('SELECT * FROM proyecto inner join usuarioproyecto on proyecto.idProyecto=usuarioproyecto.idProyecto  where idOrganizacion=?',id, function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('usuario : ', res);
+            result(null, res);
+        }
+    });
+};
+
 Usuario.update = function (id, usuario, result) {
     dbConn.query("UPDATE usuario SET nombre=?,apellido=?,correo=?,contrasenia=?,rol=?,estado=? WHERE idUsuario = ?",
         [   usuario.nombre,

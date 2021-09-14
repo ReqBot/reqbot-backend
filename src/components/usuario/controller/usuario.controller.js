@@ -38,6 +38,17 @@ exports.findById = function(req, res) {
     });
 };
 
+exports.findByOrganizacion = function (req, res) {
+    Usuario.findByOrganizacion(req.params.id,function (err, usuario) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', usuario);
+        res.send(usuario);
+    });
+};
+
+
 
 exports.update = function(req, res) {
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){

@@ -37,11 +37,12 @@ Proyecto.findById = function (id, result) {
 };
 
 Proyecto.findByOrganizacion = function (id, result) {
-    dbConn.query("Select * from proyecto where idOrganizacion = ? ", id, function (err, res) {
+    dbConn.query('Select * from proyecto where idOrganizacion = ? ',id, function (err, res) {
         if (err) {
             console.log("error: ", err);
-            result(err, null);
+            result(null, err);
         } else {
+            console.log('Proyecto : ', res);
             result(null, res);
         }
     });

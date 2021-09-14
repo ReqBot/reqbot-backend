@@ -13,7 +13,7 @@ router.get('/', proyectoController.findAll);
 router.get('/:id', proyectoController.findById);
 
 // Retrieve list proyectos with Organizacion
-router.get('/:idOrganizacion', proyectoController.findByOrganizacion);
+router.get('/organizacion/:id', proyectoController.findByOrganizacion);
 
 // Update a proyecto with id
 router.put('/:id', proyectoController.update);

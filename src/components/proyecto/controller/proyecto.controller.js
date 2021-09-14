@@ -39,10 +39,12 @@ exports.findById = function(req, res) {
 };
 
 exports.findByOrganizacion = function(req, res) {
-    Proyecto.findByOrganizacion(req.params.id, function(err, proyecto) {
+    Proyecto.findByOrganizacion(req.params.id,function (err, proyecto) {
+        console.log('controller')
         if (err)
-        res.send(err);
-        res.json(proyecto);
+            res.send(err);
+        console.log('res', proyecto);
+        res.send(proyecto);
     });
 };
 

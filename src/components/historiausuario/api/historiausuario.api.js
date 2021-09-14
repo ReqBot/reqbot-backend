@@ -13,7 +13,13 @@ router.post('/', historiausuarioController.create);
 router.get('/pendientes', historiausuarioController.findByPendientes);
 
 // Retrieve all historiausuario
+router.get('/pendientes/:id', historiausuarioController.findByProyectoPendientes);
+
+// Retrieve all historiausuario
 router.get('/aprobados', historiausuarioController.findByAprobados);
+
+// Retrieve all historiausuario
+router.get('/aprobados/:id', historiausuarioController.findByProyectoAprobados);
 
 // Retrieve a single historiausuario with id
 router.get('/:id', historiausuarioController.findById);

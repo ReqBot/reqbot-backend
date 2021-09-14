@@ -61,8 +61,32 @@ HistoriaUsuario.findByPendientes = function (result) {
     });
 };
 
+HistoriaUsuario.findByProyectoPendientes = function (id,result) {
+    dbConn.query('Select * from historiausuario where estado="Pendiente" and idProyecto=?',id, function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('historiausuario : ', res);
+            result(null, res);
+        }
+    });
+};
+
 HistoriaUsuario.findByAprobados = function (result) {
     dbConn.query('Select * from historiausuario where estado="Aprobado"', function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('historiausuario : ', res);
+            result(null, res);
+        }
+    });
+};
+
+HistoriaUsuario.findByProyectoAprobados = function (id,result) {
+    dbConn.query('Select * from historiausuario where estado="Aprobado" and idProyecto=?',id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);

@@ -54,8 +54,28 @@ exports.findByPendientes = function (req, res) {
     });
 };
 
+exports.findByProyectoPendientes = function (req, res) {
+    HistoriaUsuario.findByProyectoPendientes(req.params.id,function (err, historiausuario) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', historiausuario);
+        res.send(historiausuario);
+    });
+};
+
 exports.findByAprobados = function (req, res) {
     HistoriaUsuario.findByAprobados(function (err, historiausuario) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', historiausuario);
+        res.send(historiausuario);
+    });
+};
+
+exports.findByProyectoAprobados = function (req, res) {
+    HistoriaUsuario.findByProyectoAprobados(req.params.id,function (err, historiausuario) {
         console.log('controller')
         if (err)
             res.send(err);

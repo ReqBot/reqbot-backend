@@ -18,6 +18,15 @@ const usuarioRoutes = require("./src/components/usuario/api/usuario.api");
 const watsonRoutes = require("./src/components/watson/api/watson");
 const usuarioProyectoRoutes = require("./src/components/usuarioproyecto/api/usuarioproyecto.api");
 
+var session = require('express-session');
+const oneDay = 1000 * 60 * 60 * 24;
+app.use(session({
+  secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+  saveUninitialized: true,
+  cookie: { maxAge: oneDay },
+  resave: false
+}));
+
 app.use('/api/historiausuario', historiaUsuarioRoutes)
 app.use("/api/logs", logsRoutes);
 app.use('/api/organizacion', organizacionRoutes)

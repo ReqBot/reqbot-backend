@@ -1,6 +1,12 @@
 'use strict';
 var dbConn = require('../../../database/db.config');
 
+const roles = {
+    ADMINISTRADOR: "Administrador",
+    ANALISTA: "Analista",
+    CLIENTE: "CLIENTE"
+}
+
 //usuario object create
 var Usuario = function (usuario) {
     this.nombre = usuario.nombre;
@@ -23,6 +29,16 @@ Usuario.create = function (newusuario, result) {
     });
 };
 
+Usuario.findByCorreo = function (correo, result) {
+    dbConn.query("Select * from usuario where correo = ? ",correo,function (err,res) {
+        if(err){
+            console.log("Error in Find by Correo: " + err);
+            result(null, err);
+        }else {
+            result(null,res);
+        }
+    })
+}
 
 Usuario.findById = function (id, result) {
     dbConn.query("Select * from usuario where idusuario = ? ", id, function (err, res) {
@@ -91,4 +107,7 @@ Usuario.delete = function (id, result) {
 };
 
 
-module.exports = Usuario;
+module.exports = {
+    Usuario,
+    roles
+};

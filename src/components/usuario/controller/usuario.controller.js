@@ -2,6 +2,7 @@
 const {Usuario} = require('../model/usuario.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { rollback } = require('../../../database/db.config');
 exports.create = async function (req, res) {
     const new_usuario = new Usuario(req.body);
         try{
@@ -40,6 +41,16 @@ exports.login = async function (req, res) {
                 res.json({
                     message: "Success",
                     accessToken: accessToken,
+                    data:{
+                        id: user.idUsuario,
+                        nombre: user.nombre,
+                        apellido: user.apellido,
+                        correo: user.correo,
+                        contrasenia: user.contrasenia,
+                        rol: user.rol,
+                        estado: user.estado,
+                        idOrganizacion: user.idOrganizacion,
+                    }
                 })
             }else {
                 res.send('Not allowed, invalid credentials')
@@ -96,7 +107,15 @@ exports.findByOrganizacion = function (req, res) {
     });
 };
 
-
+exports.findByUsuarioPorProyecto = function (req, res) {
+    Usuario.findByUsuarioPorProyecto(req.params.id, function (err, usuario) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', usuario);
+        res.send(usuario);
+    });
+};
 
 exports.update = function (req, res) {
     if (req.body.constructor === Object && Object.keys(req.body).length === 0) {

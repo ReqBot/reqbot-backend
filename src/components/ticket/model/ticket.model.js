@@ -4,7 +4,7 @@ var dbConn = require('../../../database/db.config');
 //ticket object create
 var Ticket = function (ticket) {
     this.titulo = ticket.titulo;
-    this.fecha = ticket.fecha;
+    this.fecha = new Date(ticket.fecha);
     this.tipo = ticket.tipo;
     this.descripcion = ticket.descripcion;
     this.estado = ticket.estado;
@@ -37,6 +37,28 @@ Ticket.findById = function (id, result) {
 
 Ticket.findAll = function (result) {
     dbConn.query("Select * from ticket", function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('ticket : ', res);
+            result(null, res);
+        }
+    });
+};
+
+Ticket.findByOrganizacion = function (id,result) {
+    //dbConn.query('select * from usuario inner join usuarioproyecto on usuarioproyecto.idUsuario=usuario.idUsuario where usuarioproyecto.idProyecto = ?',id, function (err, res) {
+    dbConn.query('Select \n\
+    bdreqbot.ticket.titulo,\n\
+    bdreqbot.ticket.fecha,\n\
+    bdreqbot.ticket.tipo,\n\
+    bdreqbot.ticket.descripcion,\n\
+    bdreqbot.ticket.estado,\n\
+    bdreqbot.proyecto.idOrganizacion\n\
+    from bdreqbot.ticket\n\
+    inner join bdreqbot.historiausuario on bdreqbot.historiausuario.idHistoriaUsuario = bdreqbot.ticket.creadoPor\n\
+    inner join bdreqbot.proyecto on bdreqbot.proyecto.idProyecto = bdreqbot.historiausuario.idProyecto ',id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);

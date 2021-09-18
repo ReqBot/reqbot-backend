@@ -30,7 +30,18 @@ Usuario.create = function (newusuario, result) {
 };
 
 Usuario.findByCorreo = function (correo, result) {
-    dbConn.query("Select * from usuario where correo = ? ",correo,function (err,res) {
+    //dbConn.query("Select * from usuario where correo = ? ",correo,function (err,res)
+    dbConn.query("Select bdreqbot.usuario.idUsuario, \n\
+    bdreqbot.usuario.nombre, \n\
+    bdreqbot.usuario.apellido, \n\
+    bdreqbot.usuario.correo, \n\
+    bdreqbot.usuario.contrasenia, \n\
+    bdreqbot.usuario.rol, \n\
+    bdreqbot.usuario.estado, \n\
+    bdreqbot.proyecto.idOrganizacion from bdreqbot.usuario \n\
+    inner join bdreqbot.usuarioproyecto on bdreqbot.usuarioproyecto.idUsuario=bdreqbot.usuario.idUsuario \n\
+    inner join bdreqbot.proyecto on bdreqbot.usuarioproyecto.idProyecto=bdreqbot.proyecto.idProyecto \n\
+    where correo = ? ",correo,function (err,res) {
         if(err){
             console.log("Error in Find by Correo: " + err);
             result(null, err);
@@ -65,6 +76,18 @@ Usuario.findAll = function (result) {
 
 Usuario.findByOrganizacion = function (id,result) {
     dbConn.query('SELECT * FROM proyecto inner join usuarioproyecto on proyecto.idProyecto=usuarioproyecto.idProyecto  where idOrganizacion=?',id, function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('usuario : ', res);
+            result(null, res);
+        }
+    });
+};
+
+Usuario.findByUsuarioPorProyecto = function (id,result) {
+    dbConn.query('select * from usuario inner join usuarioproyecto on usuarioproyecto.idUsuario=usuario.idUsuario where usuarioproyecto.idProyecto = ?',id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);

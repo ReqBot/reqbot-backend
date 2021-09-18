@@ -14,6 +14,9 @@ router.get('/', ticketController.findAll);
 // Retrieve a single ticket with id
 router.get('/:id', ticketController.findById);
 
+// Retrieve all Tickets by Organizacion
+router.get('/organizacion/:id', ticketController.findByOrganizacion);
+
 // Update a ticket with id
 router.put('/:id', ticketController.update);
 

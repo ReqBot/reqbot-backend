@@ -21,6 +21,9 @@ router.get('/', usuarioController.findAll);
 // Retrieve a single usuario with id
 router.get('/:id',authAdmin, usuarioController.findById);
 
+// Retrieve list usuarios by Proyecto
+router.get('/proyecto/:id', usuarioController.findByUsuarioPorProyecto);
+
 // Retrieve all Usuarios by Organizacion
 router.get('/organizacion/:id', usuarioController.findByOrganizacion);
 

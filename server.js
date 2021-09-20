@@ -1,6 +1,8 @@
 // 1. Import dependencies
 const express = require("express");
+var session = require('express-session');
 const app = express();
+
 require("dotenv").config();
 
 // 1.1 Allow parsing on request bodies
@@ -18,7 +20,6 @@ const usuarioRoutes = require("./src/components/usuario/api/usuario.api");
 const watsonRoutes = require("./src/components/watson/api/watson");
 const usuarioProyectoRoutes = require("./src/components/usuarioproyecto/api/usuarioproyecto.api");
 
-var session = require('express-session');
 const oneDay = 1000 * 60 * 60 * 24;
 app.use(session({
   secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
@@ -26,6 +27,7 @@ app.use(session({
   cookie: { maxAge: oneDay },
   resave: false
 }));
+
 
 app.use('/api/historiausuario', historiaUsuarioRoutes)
 app.use("/api/logs", logsRoutes);

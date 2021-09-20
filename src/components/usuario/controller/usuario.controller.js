@@ -1,27 +1,40 @@
 'use strict';
-const {Usuario} = require('../model/usuario.model');
+const {
+    Usuario
+} = require('../model/usuario.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { rollback } = require('../../../database/db.config');
+const {
+    rollback
+} = require('../../../database/db.config');
 exports.create = async function (req, res) {
     const new_usuario = new Usuario(req.body);
-        try{
-            if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-                res.status(400).send({error: true, message: 'Please provide all required field'});
-            } else {
-                const hashedPassword = await bcrypt.hash(new_usuario.contrasenia,10)
-                console.log(hashedPassword);
-                new_usuario.contrasenia = hashedPassword;
+    try {
+        if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
+            res.status(400).send({
+                error: true,
+                message: 'Please provide all required field'
+            });
+        } else {
+            const hashedPassword = await bcrypt.hash(new_usuario.contrasenia, 10)
+            console.log(hashedPassword);
+            new_usuario.contrasenia = hashedPassword;
 
-                Usuario.create(new_usuario, function (err, usuario) {
-                    if (err)
-                        res.send(err);
-                    res.json({error: false, message: "Usuario added successfully!", data: usuario});
+            Usuario.create(new_usuario, function (err, usuario) {
+                if (err)
+                    res.send(err);
+                res.json({
+                    error: false,
+                    message: "Usuario added successfully!",
+                    data: usuario
                 });
-            }
-        }catch(e){
-            res.json({message: e.toString()});
+            });
         }
+    } catch (e) {
+        res.json({
+            message: e.toString()
+        });
+    }
 
     //handles null error
 
@@ -32,7 +45,7 @@ exports.login = async function (req, res) {
         const user = usuario[0];
         try {
             const match = await bcrypt.compare(req.body.contrasenia, user.contrasenia);
-            const accessToken = jwt.sign(JSON.stringify(user), "my secret key");
+            const accessToken = jwt.sign(JSON.stringify(user), "my_secret_key");
             //console.log(accessToken)
             console.log(req.session)
             if (match) {
@@ -41,7 +54,7 @@ exports.login = async function (req, res) {
                 res.json({
                     message: "Success",
                     accessToken: accessToken,
-                    data:{
+                    /*data: {
                         id: user.idUsuario,
                         nombre: user.nombre,
                         apellido: user.apellido,
@@ -49,25 +62,23 @@ exports.login = async function (req, res) {
                         contrasenia: user.contrasenia,
                         rol: user.rol,
                         estado: user.estado,
-                        idOrganizacion: user.idOrganizacion,
-                    }
+                        //idOrganizacion: user.idOrganizacion,
+                    }*/
                 })
-            }else {
+            } else {
                 res.send('Not allowed, invalid credentials')
             }
-        }catch (e){
+        } catch (e) {
             console.log(e);
-            res.status(400).json(
-                {
-                    message: 'Cannot find user',
-                    err: e
-                }
-            );
+            res.status(400).json({
+                message: 'Cannot find user',
+                err: e
+            });
         }
     })
 }
 
-exports.logOut = function (req,res) {
+exports.logOut = function (req, res) {
     req.session.destroy()
     console.log("SESSIONNNNNNNN")
     console.log(req.session)
@@ -146,4 +157,52 @@ exports.delete = function (req, res) {
             message: 'Usuario successfully deleted'
         });
     });
+};
+
+
+exports.changeToInactive = (req, res) => {
+    Usuario.changeStateToInactive(req.params.id, (err, result) => {
+        if (err) {
+            res.send(err);
+        }
+        res.json({
+            error: false,
+            message: 'Usuario inactive'
+        })
+    })
+};
+
+exports.changePassword = async (req, res) => {
+    let user;
+    Usuario.findByCorreo(req.body.correo, async (err, usuario) => {
+        if (err) {
+            res.send(err);
+        } else {
+            user = usuario[0];
+            try {
+                const match = await bcrypt.compare(req.body.contrasenia, user.contrasenia);
+                if (match) {
+                    const hashedPassword = await bcrypt.hash(req.body.newcontrasenia, 10)
+                    user.contrasenia = hashedPassword;
+                    Usuario.changePassword(user, (err, result) => {
+                        if (err) {
+                            res.send(err);
+                        } else {
+                            res.json({
+                                message: "Success password change"
+                            })
+                        }
+                    })
+                } else {
+                    res.send('Not allowed, invalid credentials')
+                }
+            } catch (err) {
+                console.log(err);
+                res.status(400).json({
+                    message: 'Cannot find user',
+                    err: err
+                });
+            }
+        }
+    })
 };

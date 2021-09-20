@@ -4,7 +4,7 @@ var dbConn = require('../../../database/db.config');
 const roles = {
     ADMINISTRADOR: "Administrador",
     ANALISTA: "Analista",
-    CLIENTE: "CLIENTE"
+    CLIENTE: "Cliente"
 }
 
 //usuario object create
@@ -28,9 +28,17 @@ Usuario.create = function (newusuario, result) {
         }
     });
 };
-
 Usuario.findByCorreo = function (correo, result) {
-    //dbConn.query("Select * from usuario where correo = ? ",correo,function (err,res)
+    dbConn.query("Select * from usuario where correo = ? ",correo,function (err,res) {
+        if(err){
+            console.log("Error in Find by Correo: " + err);
+            result(null, err);
+        }else {
+            result(null,res);
+        }
+    })
+}/*
+Usuario.findByCorreo = function (correo, result) {
     dbConn.query("Select bdreqbot.usuario.idUsuario, \n\
     bdreqbot.usuario.nombre, \n\
     bdreqbot.usuario.apellido, \n\
@@ -49,7 +57,7 @@ Usuario.findByCorreo = function (correo, result) {
             result(null,res);
         }
     })
-}
+}*/
 
 Usuario.findById = function (id, result) {
     dbConn.query("Select * from usuario where idusuario = ? ", id, function (err, res) {
@@ -61,6 +69,17 @@ Usuario.findById = function (id, result) {
         }
     });
 };
+
+Usuario.changeStateToInactive = function (id, result) {
+    dbConn.query("UPDATE `bdreqbot`.`usuario` SET `estado` = 'Inactivo' WHERE (`idUsuario` = ?);",[id], (err, res) => {
+        if (err) {
+            console.log("error: ", err)
+            result(null,err)
+        }else {
+            result(null,res)
+        }
+    })
+}
 
 Usuario.findAll = function (result) {
     dbConn.query("Select * from usuario", function (err, res) {
@@ -129,6 +148,16 @@ Usuario.delete = function (id, result) {
     });
 };
 
+Usuario.changePassword = function (user,result) {
+    dbConn.query("UPDATE `bdreqbot`.`usuario` SET `contrasenia` = ? WHERE (`idUsuario` = ?);",[user.contrasenia,user.idUsuario],function (err,res){
+        if (!err) {
+            result(null, res);
+        } else {
+            console.log("Error in find by user")
+            result(err, null);
+        }
+    })
+};
 
 module.exports = {
     Usuario,

@@ -74,6 +74,16 @@ exports.findByAprobados = function (req, res) {
     });
 };
 
+exports.findByIdentifier = function (req, res) {
+    HistoriaUsuario.findByIdentifier(req.params.id,function (err, historiausuario) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', historiausuario);
+        res.send(historiausuario);
+    });
+};
+
 exports.findByProyectoAprobados = function (req, res) {
     HistoriaUsuario.findByProyectoAprobados(req.params.id,function (err, historiausuario) {
         console.log('controller')

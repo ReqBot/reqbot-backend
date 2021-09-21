@@ -21,6 +21,9 @@ router.get('/aprobados', historiausuarioController.findByAprobados);
 // Retrieve all historiausuario
 router.get('/aprobados/:id', historiausuarioController.findByProyectoAprobados);
 
+// Retrieve all historiausuario by identifier
+router.get('/identificador/:id', historiausuarioController.findByIdentifier);
+
 // Retrieve a single historiausuario with id
 router.get('/:id', historiausuarioController.findById);
 

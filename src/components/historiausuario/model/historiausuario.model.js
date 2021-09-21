@@ -97,6 +97,18 @@ HistoriaUsuario.findByProyectoAprobados = function (id,result) {
     });
 };
 
+HistoriaUsuario.findByIdentifier = function (id,result) {
+    dbConn.query('Select * from historiausuario where identificador = ?',id, function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('historiausuario : ', res);
+            result(null, res);
+        }
+    });
+};
+
 HistoriaUsuario.update = function (id, historiausuario, result) {
     dbConn.query("UPDATE historiausuario SET nombre=?,rol=?,funcionalidad=?,resultado=?,fechaModificacion=?,modificadoPor=?,idProyecto=?, estado=? WHERE idHistoriaUsuario = ?",
         [   historiausuario.nombre,

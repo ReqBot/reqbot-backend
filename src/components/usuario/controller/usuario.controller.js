@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const {
     rollback
 } = require('../../../database/db.config');
+
 exports.create = async function (req, res) {
     const new_usuario = new Usuario(req.body);
     try {
@@ -43,6 +44,7 @@ exports.create = async function (req, res) {
 exports.login = async function (req, res) {
     Usuario.findByCorreo(req.body.correo, async function (err, usuario) {
         const user = usuario[0];
+        console.log(user)
         try {
             const match = await bcrypt.compare(req.body.contrasenia, user.contrasenia);
             const accessToken = jwt.sign(JSON.stringify(user), "my_secret_key");
@@ -54,7 +56,7 @@ exports.login = async function (req, res) {
                 res.json({
                     message: "Success",
                     accessToken: accessToken,
-                    /*data: {
+                    data: {
                         id: user.idUsuario,
                         nombre: user.nombre,
                         apellido: user.apellido,
@@ -62,8 +64,8 @@ exports.login = async function (req, res) {
                         contrasenia: user.contrasenia,
                         rol: user.rol,
                         estado: user.estado,
-                        //idOrganizacion: user.idOrganizacion,
-                    }*/
+                        idOrganizacion: user.idOrganizacion,
+                    }
                 })
             } else {
                 res.send('Not allowed, invalid credentials')
@@ -135,7 +137,7 @@ exports.update = function (req, res) {
             message: 'Please provide all required field'
         });
     } else {
-        Usuario.update(req.params.id, new usuario(req.body), function (err, usuario) {
+        Usuario.update(req.params.id, new Usuario(req.body), function (err, usuario) {
             if (err)
                 res.send(err);
             res.json({
@@ -145,6 +147,17 @@ exports.update = function (req, res) {
         });
     }
 
+};
+
+exports.updateEstado = function (req, res) {
+    Usuario.updateEstado(req.params.id, new Usuario(req.body), function (err, usuario) {
+        if (err)
+            res.send(err);
+        res.json({
+            error: false,
+            message: 'Usuario successfully updated'
+        });
+    });
 };
 
 

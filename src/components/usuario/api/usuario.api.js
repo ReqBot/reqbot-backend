@@ -37,10 +37,13 @@ router.get('/proyecto/:id', ensureToken,usuarioController.findByUsuarioPorProyec
 router.get('/organizacion/:id',ensureToken, usuarioController.findByOrganizacion);
 
 // Update a usuario with id
-router.put('/:id', ensureToken,usuarioController.update);
+router.put('/:id', usuarioController.update);
+
+// Update a usuario with id
+router.put('/estado/:id', usuarioController.updateEstado);
 
 // Delete a usuario with id
-router.delete('/:id', ensureToken,usuarioController.delete);
+router.delete('/:id', usuarioController.delete);
 
 router.get('/inactive/:id', ensureToken,usuarioController.changeToInactive);
 

@@ -15,6 +15,7 @@ var Usuario = function (usuario) {
     this.contrasenia = usuario.contrasenia;
     this.rol = usuario.rol;
     this.estado = usuario.estado;
+    this.idOrganizacion = usuario.idOrganizacion;
 };
 
 Usuario.create = function (newusuario, result) {
@@ -28,6 +29,7 @@ Usuario.create = function (newusuario, result) {
         }
     });
 };
+
 Usuario.findByCorreo = function (correo, result) {
     dbConn.query("Select * from usuario where correo = ? ",correo,function (err,res) {
         if(err){
@@ -37,27 +39,7 @@ Usuario.findByCorreo = function (correo, result) {
             result(null,res);
         }
     })
-}/*
-Usuario.findByCorreo = function (correo, result) {
-    dbConn.query("Select bdreqbot.usuario.idUsuario, \n\
-    bdreqbot.usuario.nombre, \n\
-    bdreqbot.usuario.apellido, \n\
-    bdreqbot.usuario.correo, \n\
-    bdreqbot.usuario.contrasenia, \n\
-    bdreqbot.usuario.rol, \n\
-    bdreqbot.usuario.estado, \n\
-    bdreqbot.proyecto.idOrganizacion from bdreqbot.usuario \n\
-    inner join bdreqbot.usuarioproyecto on bdreqbot.usuarioproyecto.idUsuario=bdreqbot.usuario.idUsuario \n\
-    inner join bdreqbot.proyecto on bdreqbot.usuarioproyecto.idProyecto=bdreqbot.proyecto.idProyecto \n\
-    where correo = ? ",correo,function (err,res) {
-        if(err){
-            console.log("Error in Find by Correo: " + err);
-            result(null, err);
-        }else {
-            result(null,res);
-        }
-    })
-}*/
+}
 
 Usuario.findById = function (id, result) {
     dbConn.query("Select * from usuario where idusuario = ? ", id, function (err, res) {
@@ -118,13 +100,28 @@ Usuario.findByUsuarioPorProyecto = function (id,result) {
 };
 
 Usuario.update = function (id, usuario, result) {
-    dbConn.query("UPDATE usuario SET nombre=?,apellido=?,correo=?,contrasenia=?,rol=?,estado=? WHERE idUsuario = ?",
+    dbConn.query("UPDATE usuario SET nombre=?,apellido=?,correo=?,rol=?,estado=?, idOrganizacion=? WHERE idUsuario = ?",
         [   usuario.nombre,
             usuario.apellido,
             usuario.correo,
-            usuario.contrasenia,
             usuario.rol,
             usuario.estado,
+            usuario.idOrganizacion,
+            id
+        ],
+        function (err, res) {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+            } else {
+                result(null, res);
+            }
+        });
+};
+
+Usuario.updateEstado = function (id, usuario, result) {
+    dbConn.query('UPDATE usuario SET estado="Inactivo" WHERE idUsuario = ?',
+        [   
             id
         ],
         function (err, res) {

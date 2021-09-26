@@ -13,6 +13,8 @@ var HistoriaUsuario = function (historiausuario) {
     this.estado = historiausuario.estado;
     this.identificador = historiausuario.identificador;
     this.version = historiausuario.version;
+    this.prioridad = historiausuario.prioridad;
+    this.puntaje = historiausuario.puntaje;
 };
 
 HistoriaUsuario.create = function (newhistoriausuario, result) {
@@ -33,21 +35,7 @@ HistoriaUsuario.create = function (newhistoriausuario, result) {
                 }
             });
         }
-
     });
-    /*dbConn.query("INSERT INTO historiausuario set ?", newhistoriausuario, function (err, res) {
-        if (err) {
-            if (err.code == 'ER_DUP_ENTRY' || err.code == 'ERR_HTTP_HEADERS_SENT') {
-                console.log("error: ", err);
-                result(err, null);
-            }
-            console.log("error: ", err);
-            result(err, null);
-        } else {
-            console.log(res.insertId);
-            result(null, res.insertId);
-        }
-    });*/
 };
 
 
@@ -135,8 +123,10 @@ HistoriaUsuario.findByIdentifier = function (id, result) {
 };
 
 HistoriaUsuario.update = function (id, historiausuario, result) {
-    dbConn.query("UPDATE historiausuario SET nombre=?,rol=?,funcionalidad=?,resultado=?,fechaModificacion=?,modificadoPor=?,idProyecto=?, estado=?, identificador=?, version=? WHERE idHistoriaUsuario = ?",
-        [historiausuario.nombre,
+    dbConn.query("UPDATE historiausuario SET nombre=?,rol=?,funcionalidad=?,resultado=?,fechaModificacion=?,modificadoPor=?, \n\
+    idProyecto=?, estado=?, identificador=?, version=?, prioridad=?, puntaje=?  WHERE idHistoriaUsuario = ?",
+        [
+            historiausuario.nombre,
             historiausuario.rol,
             historiausuario.funcionalidad,
             historiausuario.resultado,
@@ -146,6 +136,8 @@ HistoriaUsuario.update = function (id, historiausuario, result) {
             historiausuario.estado,
             historiausuario.identificador,
             historiausuario.version,
+            historiausuario.prioridad,
+            historiausuario.puntaje,
             id
         ],
         function (err, res) {
@@ -164,6 +156,53 @@ HistoriaUsuario.delete = function (id, result) {
             console.log("error: ", err);
             result(null, err);
         } else {
+            result(null, res);
+        }
+    });
+};
+
+HistoriaUsuario.changeStateToInactive = function (id, result) {
+    dbConn.query("UPDATE `bdreqbot`.`historiausuario` SET `estado` = 'Inactivo' WHERE (`idHistoriaUsuario` = ?);",[id], (err, res) => {
+        if (err) {
+            console.log("error: ", err)
+            result(null,err)
+        }else {
+            result(null,res)
+        }
+    })
+};
+
+HistoriaUsuario.orderByMedia = function (result) {
+    dbConn.query('Select * from historiausuario where prioridad="Media"', function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('historiausuario : ', res);
+            result(null, res);
+        }
+    });
+};
+
+HistoriaUsuario.orderByBajo = function (result) {
+    dbConn.query('Select * from historiausuario where prioridad="Bajo"', function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('historiausuario : ', res);
+            result(null, res);
+        }
+    });
+};
+
+HistoriaUsuario.orderByAlta = function (result) {
+    dbConn.query('Select * from historiausuario where prioridad="Alta"', function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('historiausuario : ', res);
             result(null, res);
         }
     });

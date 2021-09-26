@@ -121,3 +121,45 @@ exports.delete = function (req, res) {
         });
     });
 };
+
+exports.changeToInactive = (req, res) => {
+    HistoriaUsuario.changeStateToInactive(req.params.id, (err, result) => {
+        if (err) {
+            res.send(err);
+        }
+        res.json({
+            error: false,
+            message: 'HistoriaUsuario inactive'
+        })
+    })
+};
+
+exports.orderByMedia = function (req, res) {
+    HistoriaUsuario.orderByMedia(function (err, historiausuario) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', historiausuario);
+        res.send(historiausuario);
+    });
+};
+
+exports.orderByBajo = function (req, res) {
+    HistoriaUsuario.orderByBajo(function (err, historiausuario) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', historiausuario);
+        res.send(historiausuario);
+    });
+};
+
+exports.orderByAlta = function (req, res) {
+    HistoriaUsuario.orderByAlta(function (err, historiausuario) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', historiausuario);
+        res.send(historiausuario);
+    });
+};

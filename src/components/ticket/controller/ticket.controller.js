@@ -69,3 +69,23 @@ exports.delete = function(req, res) {
     res.json({ error:false, message: 'Ticket successfully deleted' });
   });
 };
+
+exports.orderByAsc = function (req, res) {
+    Ticket.orderByAsc(function (err, ticket) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', ticket);
+        res.send(ticket);
+    });
+};
+
+exports.orderByDesc = function (req, res) {
+    Ticket.orderByDesc(function (err, ticket) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', ticket);
+        res.send(ticket);
+    });
+};

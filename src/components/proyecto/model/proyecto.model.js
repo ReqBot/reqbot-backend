@@ -82,7 +82,7 @@ Proyecto.update = function (id, proyecto, result) {
         });
 };
 Proyecto.changeStateToInactive = function (id, result) {
-    dbConn.query("UPDATE `bdreqbot`.`proyecto` SET `estado` = 'Inactivo' WHERE (`idUsuario` = ?);",[id], (err, res) => {
+    dbConn.query("UPDATE `bdreqbot`.`proyecto` SET `estado` = 'Inactivo' WHERE (`idProyecto` = ?);",[id], (err, res) => {
         if (err) {
             console.log("error: ", err)
             result(null,err)
@@ -97,6 +97,30 @@ Proyecto.delete = function (id, result) {
             console.log("error: ", err);
             result(null, err);
         } else {
+            result(null, res);
+        }
+    });
+};
+
+Proyecto.orderByAsc = function (result) {
+    dbConn.query('Select * from proyecto ORDER BY nombre ASC', function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('Proyecto : ', res);
+            result(null, res);
+        }
+    });
+};
+
+Proyecto.orderByDesc = function (result) {
+    dbConn.query('Select * from proyecto ORDER BY nombre DESC', function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('Proyecto : ', res);
             result(null, res);
         }
     });

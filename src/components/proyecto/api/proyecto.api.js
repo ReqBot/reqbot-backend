@@ -18,6 +18,12 @@ router.post('/', proyectoController.create);
 // Retrieve all proyecto
 router.get('/', proyectoController.findAll);
 
+// Retrieve all proyecto
+router.get('/ascendente', proyectoController.orderByAsc);
+
+// Retrieve all proyecto
+router.get('/descendente', proyectoController.orderByDesc);
+
 // Retrieve a single proyecto with id
 router.get('/:id', proyectoController.findById);
 
@@ -27,10 +33,12 @@ router.get('/organizacion/:id', proyectoController.findByOrganizacion);
 // Update a proyecto with id
 router.put('/:id', proyectoController.update);
 
-
 router.get('/inactive/:id',  proyectoController.changeToInactive);
 
 // Delete a proyecto with id
 router.delete('/:id', proyectoController.delete);
+
+router.get('/inactive/:id', proyectoController.changeToInactive);
+
 
 module.exports = router

@@ -18,7 +18,6 @@ exports.create = function(req, res) {
     }
 };
 
-
 exports.findAll = function(req, res) {
     Proyecto.findAll(function(err, proyecto) {
     console.log('controller')
@@ -48,7 +47,6 @@ exports.findByOrganizacion = function(req, res) {
     });
 };
 
-
 exports.update = function(req, res) {
     if(req.body.constructor === Object && Object.keys(req.body).length === 0){
         res.status(400).send({ error:true, message: 'Please provide all required field' });
@@ -68,11 +66,10 @@ exports.changeToInactive = (req, res) => {
         }
         res.json({
             error: false,
-            message: 'Usuario inactive'
+            message: 'Proyecto inactive'
         })
     })
 };
-
 
 exports.delete = function(req, res) {
     Proyecto.delete( req.params.id, function(err, proyecto) {
@@ -80,4 +77,24 @@ exports.delete = function(req, res) {
     res.send(err);
     res.json({ error:false, message: 'Proyecto successfully deleted' });
   });
+};
+
+exports.orderByAsc = function (req, res) {
+    Proyecto.orderByAsc(function (err, proyecto) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', proyecto);
+        res.send(proyecto);
+    });
+};
+
+exports.orderByDesc = function (req, res) {
+    Proyecto.orderByDesc(function (err, proyecto) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', proyecto);
+        res.send(proyecto);
+    });
 };

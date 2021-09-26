@@ -100,5 +100,29 @@ Ticket.delete = function (id, result) {
     });
 };
 
+Ticket.orderByDesc = function (result) {
+    dbConn.query('Select * from ticket ORDER BY fecha DESC', function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('ticket : ', res);
+            result(null, res);
+        }
+    });
+};
+
+Ticket.orderByAsc = function (result) {
+    dbConn.query('Select * from ticket ORDER BY fecha DESC', function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('tickets : ', res);
+            result(null, res);
+        }
+    });
+};
+
 
 module.exports = Ticket;

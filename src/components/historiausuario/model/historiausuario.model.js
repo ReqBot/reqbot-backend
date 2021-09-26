@@ -220,5 +220,17 @@ HistoriaUsuario.orderByAlta = function (result) {
     });
 };
 
+HistoriaUsuario.getMaxIdentifier = function (result) {
+    dbConn.query('SELECT MAX(identificador) as identificador FROM bdreqbot.historiausuario', function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('historiausuario : ', res);
+            result(null, res);
+        }
+    });
+};
+
 
 module.exports = HistoriaUsuario;

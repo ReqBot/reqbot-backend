@@ -19,6 +19,8 @@ router.get('/bajo', historiausuarioController.orderByBajo);
 
 router.get('/alta', historiausuarioController.orderByAlta);
 
+router.get('/ultimoidentificador', historiausuarioController.getMaxIdentifier);
+
 // Retrieve all historiausuario
 router.get('/pendientes', historiausuarioController.findByPendientes);
 

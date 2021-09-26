@@ -49,9 +49,21 @@ HistoriaUsuario.findById = function (id, result) {
         }
     });
 };
-
+/*
 HistoriaUsuario.findAll = function (result) {
     dbConn.query('Select * from historiausuario', function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('historiausuario : ', res);
+            result(null, res);
+        }
+    });
+};
+*/
+HistoriaUsuario.findAll = function (result) {
+    dbConn.query('SELECT * FROM historiausuario WHERE version IN (SELECT MAX(version) FROM historiausuario GROUP BY identificador) ', function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);

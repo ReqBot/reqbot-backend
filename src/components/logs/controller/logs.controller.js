@@ -75,3 +75,13 @@ exports.delete = function (req, res) {
         });
     });
 };
+
+exports.findByOrganizacion = function (req, res) {
+    Logs.findByOrganizacion(req.params.id, function (err, logs) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', logs);
+        res.send(logs);
+    });
+};

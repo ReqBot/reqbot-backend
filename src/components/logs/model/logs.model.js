@@ -4,9 +4,11 @@ var dbConn = require('../../../database/db.config');
 //logs object create
 var Logs = function (logs) {
     this.nombre = logs.nombre;
-    this.ruta = logs.ruta;
+    this.archivo = logs.archivo;
     this.idProyecto = logs.idProyecto;
     this.estado = logs.estado;
+    this.fecha = new Date(logs.fecha);
+    this.nombreProyecto = logs.nombreProyecto;
 };
 
 Logs.create = function (newlogs, result) {
@@ -69,6 +71,25 @@ Logs.delete = function (id, result) {
             console.log("error: ", err);
             result(null, err);
         } else {
+            result(null, res);
+        }
+    });
+};
+
+Logs.findByOrganizacion = function (id, result) {
+    dbConn.query('SELECT bdreqbot.logs.idLogs, \n\
+     bdreqbot.logs.nombre, \n\
+     bdreqbot.logs.archivo, \n\
+     bdreqbot.logs.idProyecto, \n\
+     bdreqbot.logs.estado, \n\
+     bdreqbot.logs.fecha,  \n\
+     bdreqbot.logs.nombreProyecto \n\
+    FROM bdreqbot.logs inner join proyecto on bdreqbot.proyecto.idProyecto=bdreqbot.logs.idProyecto where bdreqbot.proyecto.idOrganizacion=?;', id, function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('logs : ', res);
             result(null, res);
         }
     });

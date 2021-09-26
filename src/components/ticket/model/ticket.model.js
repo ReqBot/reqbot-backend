@@ -55,6 +55,7 @@ Ticket.findByOrganizacion = function (id,result) {
     bdreqbot.ticket.tipo,\n\
     bdreqbot.ticket.descripcion,\n\
     bdreqbot.ticket.estado,\n\
+    bdreqbot.ticket.creadoPor,\n\
     bdreqbot.proyecto.idOrganizacion\n\
     from bdreqbot.ticket\n\
     inner join bdreqbot.historiausuario on bdreqbot.historiausuario.idHistoriaUsuario = bdreqbot.ticket.creadoPor\n\

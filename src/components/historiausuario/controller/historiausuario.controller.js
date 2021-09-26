@@ -6,23 +6,19 @@ const HistoriaUsuario = require('../model/historiausuario.model');
 exports.create = function (req, res) {
     const new_historiausuario = new HistoriaUsuario(req.body);
 
-    //handles null error 
-    if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-        res.status(400).send({
-            error: true,
-            message: 'Please provide all required field'
-        });
-    } else {
         HistoriaUsuario.create(new_historiausuario, function (err, historiausuario) {
-            if (err)
-                res.send(err);
+            if (err){
+                res.json({
+                    error: true,
+                    message: "HistoriaUsuario cant added!"
+                });
+            }                
             res.json({
                 error: false,
                 message: "HistoriaUsuario added successfully!",
                 data: historiausuario
             });
         });
-    }
 };
 
 
@@ -55,7 +51,7 @@ exports.findByPendientes = function (req, res) {
 };
 
 exports.findByProyectoPendientes = function (req, res) {
-    HistoriaUsuario.findByProyectoPendientes(req.params.id,function (err, historiausuario) {
+    HistoriaUsuario.findByProyectoPendientes(req.params.id, function (err, historiausuario) {
         console.log('controller')
         if (err)
             res.send(err);
@@ -75,7 +71,7 @@ exports.findByAprobados = function (req, res) {
 };
 
 exports.findByIdentifier = function (req, res) {
-    HistoriaUsuario.findByIdentifier(req.params.id,function (err, historiausuario) {
+    HistoriaUsuario.findByIdentifier(req.params.id, function (err, historiausuario) {
         console.log('controller')
         if (err)
             res.send(err);
@@ -85,7 +81,7 @@ exports.findByIdentifier = function (req, res) {
 };
 
 exports.findByProyectoAprobados = function (req, res) {
-    HistoriaUsuario.findByProyectoAprobados(req.params.id,function (err, historiausuario) {
+    HistoriaUsuario.findByProyectoAprobados(req.params.id, function (err, historiausuario) {
         console.log('controller')
         if (err)
             res.send(err);

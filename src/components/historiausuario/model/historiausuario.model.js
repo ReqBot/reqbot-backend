@@ -11,18 +11,43 @@ var HistoriaUsuario = function (historiausuario) {
     this.modificadoPor = historiausuario.modificadoPor;
     this.idProyecto = historiausuario.idProyecto;
     this.estado = historiausuario.estado;
+    this.identificador = historiausuario.identificador;
+    this.version = historiausuario.version;
 };
 
 HistoriaUsuario.create = function (newhistoriausuario, result) {
-    dbConn.query("INSERT INTO historiausuario set ?", newhistoriausuario, function (err, res) {
+    dbConn.query("select * from historiausuario where version=? and identificador=?", [newhistoriausuario.version,newhistoriausuario.identificador], function (err, res) {
+        console.log("asd: ", res);
+        if(res.length != 0 ){
+            console.log("error: ", err);
+            result(null, "Error");
+        }else{
+            console.log("Entro: ", "Gaa");
+            dbConn.query("INSERT INTO historiausuario set ?", newhistoriausuario, function (err, res) {
+                if (err) {
+                    console.log("error: ", err);
+                    result(err, null);
+                } else {
+                    console.log(res.insertId);
+                    result(null, res.insertId);
+                }
+            });
+        }
+
+    });
+    /*dbConn.query("INSERT INTO historiausuario set ?", newhistoriausuario, function (err, res) {
         if (err) {
+            if (err.code == 'ER_DUP_ENTRY' || err.code == 'ERR_HTTP_HEADERS_SENT') {
+                console.log("error: ", err);
+                result(err, null);
+            }
             console.log("error: ", err);
             result(err, null);
         } else {
             console.log(res.insertId);
             result(null, res.insertId);
         }
-    });
+    });*/
 };
 
 
@@ -61,8 +86,8 @@ HistoriaUsuario.findByPendientes = function (result) {
     });
 };
 
-HistoriaUsuario.findByProyectoPendientes = function (id,result) {
-    dbConn.query('Select * from historiausuario where estado="Pendiente" and idProyecto=?',id, function (err, res) {
+HistoriaUsuario.findByProyectoPendientes = function (id, result) {
+    dbConn.query('Select * from historiausuario where estado="Pendiente" and idProyecto=?', id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -85,8 +110,8 @@ HistoriaUsuario.findByAprobados = function (result) {
     });
 };
 
-HistoriaUsuario.findByProyectoAprobados = function (id,result) {
-    dbConn.query('Select * from historiausuario where estado="Aprobado" and idProyecto=?',id, function (err, res) {
+HistoriaUsuario.findByProyectoAprobados = function (id, result) {
+    dbConn.query('Select * from historiausuario where estado="Aprobado" and idProyecto=?', id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -97,8 +122,8 @@ HistoriaUsuario.findByProyectoAprobados = function (id,result) {
     });
 };
 
-HistoriaUsuario.findByIdentifier = function (id,result) {
-    dbConn.query('Select * from historiausuario where identificador = ?',id, function (err, res) {
+HistoriaUsuario.findByIdentifier = function (id, result) {
+    dbConn.query('Select * from historiausuario where identificador = ?', id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -110,8 +135,8 @@ HistoriaUsuario.findByIdentifier = function (id,result) {
 };
 
 HistoriaUsuario.update = function (id, historiausuario, result) {
-    dbConn.query("UPDATE historiausuario SET nombre=?,rol=?,funcionalidad=?,resultado=?,fechaModificacion=?,modificadoPor=?,idProyecto=?, estado=? WHERE idHistoriaUsuario = ?",
-        [   historiausuario.nombre,
+    dbConn.query("UPDATE historiausuario SET nombre=?,rol=?,funcionalidad=?,resultado=?,fechaModificacion=?,modificadoPor=?,idProyecto=?, estado=?, identificador=?, version=? WHERE idHistoriaUsuario = ?",
+        [historiausuario.nombre,
             historiausuario.rol,
             historiausuario.funcionalidad,
             historiausuario.resultado,
@@ -119,6 +144,8 @@ HistoriaUsuario.update = function (id, historiausuario, result) {
             historiausuario.modificadoPor,
             historiausuario.idProyecto,
             historiausuario.estado,
+            historiausuario.identificador,
+            historiausuario.version,
             id
         ],
         function (err, res) {

@@ -6,6 +6,7 @@ var Logs = function (logs) {
     this.nombre = logs.nombre;
     this.ruta = logs.ruta;
     this.idProyecto = logs.idProyecto;
+    this.estado = logs.estado;
 };
 
 Logs.create = function (newlogs, result) {
@@ -45,10 +46,11 @@ Logs.findAll = function (result) {
 };
 
 Logs.update = function (id, logs, result) {
-    dbConn.query("UPDATE logs SET nombre=?,ruta=?,idProyecto=? WHERE idLogs = ?",
+    dbConn.query("UPDATE logs SET nombre=?,ruta=?,idProyecto=?, estado=? WHERE idLogs = ?",
         [   logs.nombre,
             logs.ruta,
             logs.idProyecto,
+            logs.estado,
             id
         ],
         function (err, res) {

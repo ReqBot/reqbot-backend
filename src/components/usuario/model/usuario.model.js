@@ -76,7 +76,7 @@ Usuario.findAll = function (result) {
 };
 
 Usuario.findByOrganizacion = function (id,result) {
-    dbConn.query('SELECT * FROM proyecto inner join usuarioproyecto on proyecto.idProyecto=usuarioproyecto.idProyecto  where idOrganizacion=?',id, function (err, res) {
+    dbConn.query('SELECT nombre,apellido,correo,rol,estado,idOrganizacion FROM usuario where idOrganizacion=?',id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);

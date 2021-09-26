@@ -3,6 +3,12 @@ const express = require('express')
 const router = express.Router()
 const ticketController = require('../controller/ticket.controller');
 const cors = require('cors')
+const {
+    ensureToken,
+    authAdmin,
+    authCliente,
+    authAnalista
+} = require("../../auth/auth");
 
 router.use(cors())
 // Create a new ticket
@@ -12,7 +18,7 @@ router.post('/', ticketController.create);
 router.get('/', ticketController.findAll);
 
 // Retrieve a single ticket with id
-router.get('/:id', ticketController.findById);
+router.get('/:id',ticketController.findById);
 
 // Retrieve all Tickets by Organizacion
 router.get('/organizacion/:id', ticketController.findByOrganizacion);

@@ -81,7 +81,16 @@ Proyecto.update = function (id, proyecto, result) {
             }
         });
 };
-
+Proyecto.changeStateToInactive = function (id, result) {
+    dbConn.query("UPDATE `bdreqbot`.`proyecto` SET `estado` = 'Inactivo' WHERE (`idUsuario` = ?);",[id], (err, res) => {
+        if (err) {
+            console.log("error: ", err)
+            result(null,err)
+        }else {
+            result(null,res)
+        }
+    })
+}
 Proyecto.delete = function (id, result) {
     dbConn.query("DELETE FROM proyecto WHERE idProyecto = ?", [id], function (err, res) {
         if (err) {

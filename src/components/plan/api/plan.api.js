@@ -1,9 +1,13 @@
-
 const express = require('express')
 const router = express.Router()
 const planController = require('../controller/plan.controller');
 const cors = require('cors')
-
+const {
+    ensureToken,
+    authAdmin,
+    authCliente,
+    authAnalista
+} = require("../../auth/auth");
 router.use(cors())
 // Create a new plan
 router.post('/', planController.create);

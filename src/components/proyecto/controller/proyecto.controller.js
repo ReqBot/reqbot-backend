@@ -61,6 +61,18 @@ exports.update = function(req, res) {
     }
 };
 
+exports.changeToInactive = (req, res) => {
+    Proyecto.changeStateToInactive(req.params.id, (err, result) => {
+        if (err) {
+            res.send(err);
+        }
+        res.json({
+            error: false,
+            message: 'Usuario inactive'
+        })
+    })
+};
+
 
 exports.delete = function(req, res) {
     Proyecto.delete( req.params.id, function(err, proyecto) {

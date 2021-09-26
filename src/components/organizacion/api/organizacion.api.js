@@ -1,9 +1,13 @@
-
 const express = require('express')
 const router = express.Router()
 const organizacionController = require('../controller/organizacion.controller');
 const cors = require('cors')
-
+const {
+    ensureToken,
+    authAdmin,
+    authCliente,
+    authAnalista
+} = require("../../auth/auth");
 router.use(cors())
 // Create a new organizacion
 router.post('/', organizacionController.create);

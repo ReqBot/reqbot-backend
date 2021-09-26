@@ -54,7 +54,7 @@ exports.login = async function (req, res) {
                 req.session.user = usuario[0]
                 req.session.accessToken = accessToken
                 res.json({
-                    message: "Success",
+                    error: false,
                     accessToken: accessToken,
                     data: {
                         id: user.idUsuario,
@@ -81,10 +81,12 @@ exports.login = async function (req, res) {
 }
 
 exports.logOut = function (req, res) {
+    //req.session = null
     req.session.destroy()
     console.log("SESSIONNNNNNNN")
     console.log(req.session)
     res.send({
+        error: false,
         message: "Log out"
     })
 }

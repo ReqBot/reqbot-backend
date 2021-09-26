@@ -1,9 +1,13 @@
-
 const express = require('express')
 const router = express.Router()
 const historiausuarioController = require('../controller/historiausuario.controller');
 const cors = require('cors')
-
+const {
+    ensureToken,
+    authAdmin,
+    authCliente,
+    authAnalista
+} = require("../../auth/auth");
 router.use(cors())
 
 // Create a new historiausuario

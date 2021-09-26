@@ -17,24 +17,21 @@ router.post('/login', usuarioController.login);
 
 //logOut
 router.get('/logout', ensureToken, usuarioController.logOut);
+
 // Create a new usuario
 router.post('/', usuarioController.create);
 
 // Retrieve all usuario
 router.get('/', usuarioController.findAll);
 
-/*
-// Retrieve all usuario
-router.get('/', usuarioController.findAll);*/
-
 // Retrieve a single usuario with id
-router.get('/:id', ensureToken, authAdmin, usuarioController.findById);
+router.get('/:id',  usuarioController.findById);
 
 // Retrieve list usuarios by Proyecto
-router.get('/proyecto/:id', ensureToken,usuarioController.findByUsuarioPorProyecto);
+router.get('/proyecto/:id', usuarioController.findByUsuarioPorProyecto);
 
 // Retrieve all Usuarios by Organizacion
-router.get('/organizacion/:id',ensureToken, usuarioController.findByOrganizacion);
+router.get('/organizacion/:id', usuarioController.findByOrganizacion);
 
 // Update a usuario with id
 router.put('/:id', usuarioController.update);
@@ -45,9 +42,9 @@ router.put('/estado/:id', usuarioController.updateEstado);
 // Delete a usuario with id
 router.delete('/:id', usuarioController.delete);
 
-router.get('/inactive/:id', ensureToken,usuarioController.changeToInactive);
+router.get('/inactive/:id', usuarioController.changeToInactive);
 
-router.post('/change-password',ensureToken, usuarioController.changePassword);
+router.post('/change-password', usuarioController.changePassword);
 
 
 module.exports = router

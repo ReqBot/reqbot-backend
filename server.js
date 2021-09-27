@@ -35,7 +35,7 @@ app.use('/api/organizacion', organizacionRoutes)
 app.use("/api/plan", planRoutes);
 app.use('/api/proyecto', proyectoRoutes)
 app.use("/api/ticket", ticketRoutes);
-app.use("/api/usuario", usuarioRoutes);
+//app.use("/api/usuario", usuarioRoutes);
 app.use("/api/watson", watsonRoutes);
 app.use("/api/usuarioproyecto", usuarioProyectoRoutes);
 

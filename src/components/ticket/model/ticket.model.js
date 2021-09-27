@@ -50,16 +50,16 @@ Ticket.findAll = function (result) {
 Ticket.findByOrganizacion = function (id,result) {
     //dbConn.query('select * from usuario inner join usuarioproyecto on usuarioproyecto.idUsuario=usuario.idUsuario where usuarioproyecto.idProyecto = ?',id, function (err, res) {
     dbConn.query('Select \n\
-    bdreqbot.ticket.titulo,\n\
-    bdreqbot.ticket.fecha,\n\
-    bdreqbot.ticket.tipo,\n\
-    bdreqbot.ticket.descripcion,\n\
-    bdreqbot.ticket.estado,\n\
-    bdreqbot.ticket.creadoPor,\n\
-    bdreqbot.proyecto.idOrganizacion\n\
-    from bdreqbot.ticket\n\
-    inner join bdreqbot.historiausuario on bdreqbot.historiausuario.idHistoriaUsuario = bdreqbot.ticket.creadoPor\n\
-    inner join bdreqbot.proyecto on bdreqbot.proyecto.idProyecto = bdreqbot.historiausuario.idProyecto ',id, function (err, res) {
+    ticket.titulo,\n\
+    ticket.fecha,\n\
+    ticket.tipo,\n\
+    ticket.descripcion,\n\
+    ticket.estado,\n\
+    ticket.creadoPor,\n\
+    proyecto.idOrganizacion\n\
+    from ticket\n\
+    inner join historiausuario on historiausuario.idHistoriaUsuario = ticket.creadoPor\n\
+    inner join proyecto on proyecto.idProyecto = historiausuario.idProyecto ',id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);

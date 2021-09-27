@@ -77,14 +77,14 @@ Logs.delete = function (id, result) {
 };
 
 Logs.findByOrganizacion = function (id, result) {
-    dbConn.query('SELECT bdreqbot.logs.idLogs, \n\
-     bdreqbot.logs.nombre, \n\
-     bdreqbot.logs.archivo, \n\
-     bdreqbot.logs.idProyecto, \n\
-     bdreqbot.logs.estado, \n\
-     bdreqbot.logs.fecha,  \n\
-     bdreqbot.logs.nombreProyecto \n\
-    FROM bdreqbot.logs inner join proyecto on bdreqbot.proyecto.idProyecto=bdreqbot.logs.idProyecto where bdreqbot.proyecto.idOrganizacion=?;', id, function (err, res) {
+    dbConn.query('SELECT logs.idLogs, \n\
+     logs.nombre, \n\
+     logs.archivo, \n\
+     logs.idProyecto, \n\
+     logs.estado, \n\
+     logs.fecha,  \n\
+     logs.nombreProyecto \n\
+    FROM logs inner join proyecto on proyecto.idProyecto=logs.idProyecto where proyecto.idOrganizacion=?;', id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);

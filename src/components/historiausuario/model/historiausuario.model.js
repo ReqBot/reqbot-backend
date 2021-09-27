@@ -221,7 +221,7 @@ HistoriaUsuario.orderByAlta = function (result) {
 };
 
 HistoriaUsuario.getMaxIdentifier = function (result) {
-    dbConn.query('SELECT MAX(identificador) as identificador FROM bdreqbot.historiausuario', function (err, res) {
+    dbConn.query('SELECT MAX(identificador) as identificador FROM historiausuario', function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -233,11 +233,11 @@ HistoriaUsuario.getMaxIdentifier = function (result) {
 };
 
 HistoriaUsuario.findByOrganizacion = function (id, result) {
-    dbConn.query('SELECT bdreqbot.historiausuario.nombre, bdreqbot.historiausuario.rol, bdreqbot.historiausuario.funcionalidad, bdreqbot.historiausuario.resultado, \n\
-    bdreqbot.historiausuario.fechaModificacion, bdreqbot.historiausuario.modificadoPor, bdreqbot.historiausuario.idProyecto, bdreqbot.historiausuario.estado, \n\
-    bdreqbot.historiausuario.identificador, bdreqbot.historiausuario.version, bdreqbot.historiausuario.prioridad, bdreqbot.historiausuario.puntaje,\n\
-    bdreqbot.proyecto.idOrganizacion\n\
-     FROM bdreqbot.historiausuario inner join bdreqbot.proyecto on bdreqbot.proyecto.idProyecto=bdreqbot.historiausuario.idProyecto where idOrganizacion=?', id, function (err, res) {
+    dbConn.query('SELECT historiausuario.nombre, historiausuario.rol, historiausuario.funcionalidad, historiausuario.resultado, \n\
+    historiausuario.fechaModificacion, historiausuario.modificadoPor, historiausuario.idProyecto, historiausuario.estado, \n\
+    historiausuario.identificador, historiausuario.version, historiausuario.prioridad, historiausuario.puntaje,\n\
+    proyecto.idOrganizacion\n\
+     FROM historiausuario inner join proyecto on proyecto.idProyecto=historiausuario.idProyecto where idOrganizacion=?', id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);

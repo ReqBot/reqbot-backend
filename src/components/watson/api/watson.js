@@ -53,21 +53,21 @@ router.get("/session", async (req, res) => {
 router.post("/message", async (req, res) => {
   try {
 
-   /* const initialData = {
+    const initialData = {
       q: req.body.q,
       source: "es",
       target: "en"
-    };*/
+    };
 
-    //const axiosres = await axios.post("https://libretranslate.de/translate", initialData)
-    //const translatedESEN = axiosres.data?.translatedText ?? '';
+    const axiosres = await axios.post("https://libretranslate.de/translate", initialData)
+    const translatedESEN = axiosres.data?.translatedText ?? '';
 
     payload = {
-      assistantId: process.env.WATSON_ASSISTANT_ID,
+      assistantId: "58e31aaf-6377-48f2-a014-6ede291c271e",
       sessionId: req.headers.session_id,
       input: {
         message_type: "text",
-        text: req.body.q,
+        text: translatedESEN,
       },
     };
 
@@ -76,11 +76,11 @@ router.post("/message", async (req, res) => {
     const ibmMessage = ibmRes["result"].output.generic[0].text;
 
     // Translate for user
-    /*const finalRes = await axios.post("https://libretranslate.de/translate", {
+    const finalRes = await axios.post("https://libretranslate.de/translate", {
       q: ibmMessage,
       source: "en",
       target: "es"
-    });*/
+    });
 
     const Data = function (data) {
       this.message = data.message;
@@ -89,9 +89,9 @@ router.post("/message", async (req, res) => {
       this.value = data.value;
     };
     
-    //Data.message = finalRes.data.translatedText ?? '';
+    Data.message = finalRes.data.translatedText ?? '';
 
-    Data.message = ibmMessage ?? '';
+    //Data.message = finalRes ?? '';
 
     if (ibmRes["result"].output.intents.length != 0) {
       Data.intent = ibmRes["result"].output.intents[0].intent;

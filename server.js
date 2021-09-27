@@ -16,7 +16,7 @@ const organizacionRoutes = require('./src/components/organizacion/api/organizaci
 const planRoutes = require('./src/components/plan/api/plan.api');
 const proyectoRoutes = require("./src/components/proyecto/api/proyecto.api");
 const ticketRoutes = require("./src/components/ticket/api/ticket.api");
-const usuarioRoutes = require("./src/components/usuario/api/usuario.api");
+//const usuarioRoutes = require("./src/components/usuario/api/usuario.api");
 const watsonRoutes = require("./src/components/watson/api/watson");
 const usuarioProyectoRoutes = require("./src/components/usuarioproyecto/api/usuarioproyecto.api");
 

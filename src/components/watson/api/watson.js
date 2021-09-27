@@ -18,14 +18,14 @@ router.use(cors())
 
 // 2.1 First authenticate
 const authenticator = new IamAuthenticator({
-  apikey: process.env.WATSON_ASSISTANT_APIKEY,
+  apikey: "des4SNXs3z2Mx-zIuiYXr-ItPRJX37RDXBwDNT-Y82rV",
 });
 
 // 2.2 Connect to assistant
 const assistant = new AssistantV2({
   version: "2021-08-21",
   authenticator: authenticator,
-  url: process.env.WATSON_ASSISTANT_URL,
+  url: "https://api.us-south.assistant.watson.cloud.ibm.com/instances/45405a41-d562-4afe-b9cf-45847ac2193c",
 });
 
 // 3. Route to Handle Session Tokens
@@ -34,7 +34,7 @@ router.get("/session", async (req, res) => {
   // If successs
   try {
     const session = await assistant.createSession({
-      assistantId: process.env.WATSON_ASSISTANT_ID,
+      assistantId: "58e31aaf-6377-48f2-a014-6ede291c271e",
     });
     res.json(session["result"]);
 

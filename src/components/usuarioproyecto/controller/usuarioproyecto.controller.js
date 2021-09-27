@@ -1,5 +1,5 @@
 'use strict';
-const UsuarioProyecto = require('../model/usuarioProyecto.model');
+const UsuarioProyecto = require('../model/usuarioproyecto.model');
 
 exports.create = function(req, res) {
     const new_usuarioProyecto = new UsuarioProyecto(req.body);

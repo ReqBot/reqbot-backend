@@ -18,7 +18,7 @@ const proyectoRoutes = require("./src/components/proyecto/api/proyecto.api");
 const ticketRoutes = require("./src/components/ticket/api/ticket.api");
 const usuarioRoutes = require("./src/components/usuario/api/usuario.api");
 const watsonRoutes = require("./src/components/watson/api/watson");
-//const usuarioProyectoRoutes = require("./src/components/usuarioproyecto/api/usuarioproyecto.api");
+const usuarioProyectoRoutes = require("./src/components/usuarioproyecto/api/usuarioproyecto.api");
 
 const oneDay = 1000 * 60 * 60 * 24;
 app.use(session({
@@ -37,7 +37,7 @@ app.use('/api/proyecto', proyectoRoutes)
 app.use("/api/ticket", ticketRoutes);
 app.use("/api/usuario", usuarioRoutes);
 app.use("/api/watson", watsonRoutes);
-//app.use("/api/usuarioproyecto", usuarioProyectoRoutes);
+app.use("/api/usuarioproyecto", usuarioProyectoRoutes);
 
 app.get("/",(req,res)=>{
   res.send("Hola Reqbot")

@@ -1,7 +1,7 @@
 
 const express = require('express')
 const router = express.Router()
-const usuarioProyectoController = require('../controller/usuarioProyecto.controller');
+const usuarioProyectoController = require('../controller/usuarioproyecto.controller');
 const cors = require('cors')
 
 router.use(cors())
@@ -10,10 +10,7 @@ router.post('/', usuarioProyectoController.create);
 
 // Retrieve all usuarioProyecto
 router.get('/', usuarioProyectoController.findAll);
-/*
-// Retrieve a single usuarioProyecto with id
-router.get('/:id', usuarioProyectoController.findById);
-*/
+
 // Update a usuarioProyecto with id
 router.put('/:id', usuarioProyectoController.update);
 

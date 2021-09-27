@@ -39,6 +39,9 @@ app.use("/api/usuario", usuarioRoutes);
 app.use("/api/watson", watsonRoutes);
 app.use("/api/usuarioproyecto", usuarioProyectoRoutes);
 
+app.get("/",(req,res)=>{
+  res.send("Hola Reqbot")
+})
 
 // 3. Start server
 const port = process.env.PORT || 5000;

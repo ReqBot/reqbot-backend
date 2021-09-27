@@ -173,3 +173,13 @@ exports.getMaxIdentifier = function (req, res) {
         res.send(historiausuario);
     });
 };
+
+exports.findByOrganizacion = function (req, res) {
+    HistoriaUsuario.findByOrganizacion(req.params.id, function (err, historiausuario) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', historiausuario);
+        res.send(historiausuario);
+    });
+};

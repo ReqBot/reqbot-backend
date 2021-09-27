@@ -232,5 +232,21 @@ HistoriaUsuario.getMaxIdentifier = function (result) {
     });
 };
 
+HistoriaUsuario.findByOrganizacion = function (id, result) {
+    dbConn.query('SELECT bdreqbot.historiausuario.nombre, bdreqbot.historiausuario.rol, bdreqbot.historiausuario.funcionalidad, bdreqbot.historiausuario.resultado, \n\
+    bdreqbot.historiausuario.fechaModificacion, bdreqbot.historiausuario.modificadoPor, bdreqbot.historiausuario.idProyecto, bdreqbot.historiausuario.estado, \n\
+    bdreqbot.historiausuario.identificador, bdreqbot.historiausuario.version, bdreqbot.historiausuario.prioridad, bdreqbot.historiausuario.puntaje,\n\
+    bdreqbot.proyecto.idOrganizacion\n\
+     FROM bdreqbot.historiausuario inner join bdreqbot.proyecto on bdreqbot.proyecto.idProyecto=bdreqbot.historiausuario.idProyecto where idOrganizacion=?', id, function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('historiausuario : ', res);
+            result(null, res);
+        }
+    });
+};
+
 
 module.exports = HistoriaUsuario;

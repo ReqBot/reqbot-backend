@@ -21,6 +21,11 @@ router.get('/alta', historiausuarioController.orderByAlta);
 
 router.get('/ultimoidentificador', historiausuarioController.getMaxIdentifier);
 
+// Get user histories with id project
+router.get('/project/:id', historiausuarioController.getByIdProject);
+
+router.get('/download/project/:id', historiausuarioController.downloadPromise);
+
 router.get('/organizacion/:id', historiausuarioController.findByOrganizacion);
 
 // Retrieve all historiausuario

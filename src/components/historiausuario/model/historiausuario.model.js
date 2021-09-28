@@ -249,4 +249,30 @@ HistoriaUsuario.findByOrganizacion = function (id, result) {
 };
 
 
+HistoriaUsuario.findByIdProject = function (id, result) {
+    dbConn.query("Select * from historiausuario where idProyecto = ? ", id, function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+        } else {
+            result(null, res);
+        }
+    });
+};
+
+HistoriaUsuario.findByIdProjectPromise = async function (id) {
+    return new  Promise( async (resolve,reject) => {
+        dbConn.query("Select * from historiausuario where idProyecto = ? ", id, function (err, res) {
+            if (err) {
+                console.log("error: ", err);
+                return reject(err);
+            } else {
+                return resolve(res);
+            }
+        });
+    })
+
+};
+
+
 module.exports = HistoriaUsuario;

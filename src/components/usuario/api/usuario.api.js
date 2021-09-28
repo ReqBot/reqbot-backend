@@ -18,11 +18,15 @@ router.post('/login', usuarioController.login);
 //logOut
 router.get('/logout', ensureToken, usuarioController.logOut);
 
+router.post('/change-password', usuarioController.changePassword);
+
+router.post('/recovery-password', usuarioController.recoveryPasswordByAddress);
 // Create a new usuario
 router.post('/', usuarioController.create);
 
 // Retrieve all usuario
 router.get('/', usuarioController.findAll);
+
 
 // Retrieve a single usuario with id
 router.get('/:id',  usuarioController.findById);
@@ -43,8 +47,6 @@ router.put('/estado/:id', usuarioController.updateEstado);
 router.delete('/:id', usuarioController.delete);
 
 router.get('/inactive/:id', usuarioController.changeToInactive);
-
-router.post('/change-password', usuarioController.changePassword);
 
 
 module.exports = router

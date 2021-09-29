@@ -21,6 +21,7 @@ router.get('/logout', ensureToken, usuarioController.logOut);
 router.post('/change-password', usuarioController.changePassword);
 
 router.post('/recovery-password', usuarioController.recoveryPasswordByAddress);
+
 // Create a new usuario
 router.post('/', usuarioController.create);
 

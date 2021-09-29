@@ -30,6 +30,9 @@ router.get('/:id', proyectoController.findById);
 // Retrieve list proyectos with Organizacion
 router.get('/organizacion/:id', proyectoController.findByOrganizacion);
 
+// Retrieve list proyectos with Organizacion
+router.get('/usuarios/:id', proyectoController.getUsers);
+
 // Update a proyecto with id
 router.put('/:id', proyectoController.update);
 

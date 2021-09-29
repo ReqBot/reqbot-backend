@@ -48,6 +48,18 @@ Proyecto.findByOrganizacion = function (id, result) {
     });
 };
 
+Proyecto.getUsers = function (id, result) {
+    dbConn.query('SELECT * FROM proyecto inner join usuarioproyecto on usuarioproyecto.idProyecto=proyecto.idProyecto where usuarioproyecto.idUsuario=?',id, function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('Proyecto : ', res);
+            result(null, res);
+        }
+    });
+};
+
 
 Proyecto.findAll = function (result) {
     dbConn.query("Select * from proyecto", function (err, res) {

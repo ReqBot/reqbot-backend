@@ -59,7 +59,7 @@ Ticket.findByOrganizacion = function (id,result) {
     proyecto.idOrganizacion\n\
     from ticket\n\
     inner join historiausuario on historiausuario.idHistoriaUsuario = ticket.creadoPor\n\
-    inner join proyecto on proyecto.idProyecto = historiausuario.idProyecto ',id, function (err, res) {
+    inner join proyecto on proyecto.idProyecto = historiausuario.idProyecto where proyecto.idOrganizacion=?',id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);

@@ -360,7 +360,7 @@ exports.downloadPromise = async function (req, res) {
                                     stack:  [
                                         'Prioridad',
                                         { text:' ', style: 'numberUs' },
-                                        { text:`${userHistories[uh].idHistoriaUsuario}`, style: 'numberUs'},
+                                        { text:`${userHistories[uh].prioridad}`, style: 'numberUs'},
                                         { text:' ', style: 'numberUs' },
                                     ]
                                 }, {}
@@ -369,7 +369,7 @@ exports.downloadPromise = async function (req, res) {
                                     stack:  [
                                         'Puntos Estimados',
                                         { text:' ', style: 'numberUs' },
-                                        { text:`${user[0].nombre}`, style: 'numberUs'},
+                                        { text:`${userHistories[uh].puntaje}`, style: 'numberUs'},
                                         { text:' ', style: 'numberUs' },
                                     ]
                                 }, {}],
@@ -377,7 +377,7 @@ exports.downloadPromise = async function (req, res) {
                                     stack:  [
                                         'Modificado por',
                                         { text:' ', style: 'numberUs' },
-                                        { text:`${user[0].nombre}`, style: 'numberUs'},
+                                        { text:`${user[0].nombre} ${user[0].apellido}`, style: 'numberUs'},
                                         { text:' ', style: 'numberUs' },
                                     ]
                                 }, {}],
@@ -386,7 +386,7 @@ exports.downloadPromise = async function (req, res) {
                                     stack:  [
                                         'Descripcion',
                                         { text:' ', style: 'numberUs' },
-                                        { text:`${userHistories[uh].funcionalidad}`, style: 'description'},
+                                        { text:`Como ${userHistories[uh].rol} quiere ${userHistories[uh].funcionalidad} para ${userHistories[uh].resultado} `, style: 'description'},
                                         { text:' ', style: 'numberUs' },
                                     ],
                                     colSpan:3}, {},{}]

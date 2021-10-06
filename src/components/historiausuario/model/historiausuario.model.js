@@ -63,7 +63,7 @@ HistoriaUsuario.findAll = function (result) {
 };
 */
 HistoriaUsuario.findAll = function (result) {
-    dbConn.query('SELECT * FROM historiausuario WHERE version IN (SELECT MAX(version) FROM historiausuario GROUP BY identificador) ', function (err, res) {
+    dbConn.query('SELECT idHistoriaUsuario,rol,funcionalidad,resultado,fechaModificacion,modificadoPor,idProyecto,estado,identificador, MAX(version) version, prioridad , puntaje FROM historiausuario GROUP BY identificador ', function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);

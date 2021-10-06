@@ -10,6 +10,7 @@ var Proyecto = function (proyecto) {
     this.numeroDeHistorias = proyecto.numeroDeHistorias;
     this.numeroUsuarios = proyecto.numeroUsuarios;
     this.idOrganizacion = proyecto.idOrganizacion;
+    this.descripcion = proyecto.descripcion;
 };
 
 Proyecto.create = function (newproyecto, result) {
@@ -74,7 +75,7 @@ Proyecto.findAll = function (result) {
 };
 
 Proyecto.update = function (id, proyecto, result) {
-    dbConn.query("UPDATE proyecto SET nombre=?,fechaModificacion=?,etiqueta=?,estado=?,numeroDeHistorias=?,numeroUsuarios=?,idOrganizacion=? WHERE idProyecto = ?",
+    dbConn.query("UPDATE proyecto SET nombre=?,fechaModificacion=?,etiqueta=?,estado=?,numeroDeHistorias=?,numeroUsuarios=?,idOrganizacion=?,descripcion=? WHERE idProyecto = ?",
         [   proyecto.nombre,
             proyecto.fechaModificacion,
             proyecto.etiqueta,
@@ -82,6 +83,7 @@ Proyecto.update = function (id, proyecto, result) {
             proyecto.numeroDeHistorias,
             proyecto.numeroUsuarios,
             proyecto.idOrganizacion,
+            proyecto.descripcion,
             id
         ],
         function (err, res) {

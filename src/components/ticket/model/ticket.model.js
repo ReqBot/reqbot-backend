@@ -50,6 +50,7 @@ Ticket.findAll = function (result) {
 Ticket.findByOrganizacion = function (id,result) {
     //dbConn.query('select * from usuario inner join usuarioproyecto on usuarioproyecto.idUsuario=usuario.idUsuario where usuarioproyecto.idProyecto = ?',id, function (err, res) {
     dbConn.query('Select \n\
+    ticket.idTicket, \n\
     ticket.titulo,\n\
     ticket.fecha,\n\
     ticket.tipo,\n\

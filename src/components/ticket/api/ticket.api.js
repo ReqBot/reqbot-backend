@@ -18,10 +18,10 @@ router.post('/', ticketController.create);
 router.get('/', ticketController.findAll);
 
 // Retrieve all ticket
-router.get('/ascendente', ticketController.orderByAsc);
+router.get('/ascendente/:id', ticketController.orderByAsc);
 
 // Retrieve all ticket
-router.get('/descendente', ticketController.orderByDesc);
+router.get('/descendente/:id', ticketController.orderByDesc);
 
 // Retrieve a single ticket with id
 router.get('/:id',ticketController.findById);

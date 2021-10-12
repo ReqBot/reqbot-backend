@@ -70,8 +70,9 @@ exports.delete = function(req, res) {
   });
 };
 
+
 exports.orderByAsc = function (req, res) {
-    Ticket.orderByAsc(function (err, ticket) {
+    Ticket.orderByAsc(req.params.id, function (err, ticket) {
         console.log('controller')
         if (err)
             res.send(err);
@@ -80,8 +81,9 @@ exports.orderByAsc = function (req, res) {
     });
 };
 
+
 exports.orderByDesc = function (req, res) {
-    Ticket.orderByDesc(function (err, ticket) {
+    Ticket.orderByDesc(req.params.id, function (err, ticket) {
         console.log('controller')
         if (err)
             res.send(err);

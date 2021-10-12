@@ -102,8 +102,12 @@ Ticket.delete = function (id, result) {
     });
 };
 
-Ticket.orderByDesc = function (result) {
-    dbConn.query('Select * from ticket ORDER BY fecha DESC', function (err, res) {
+Ticket.orderByDesc = function (id,result) {
+    dbConn.query('SELECT ticket.idTicket,ticket.titulo,ticket.fecha,ticket.tipo,ticket.descripcion,ticket.estado, ticket.creadoPor FROM ticket \n\
+    inner join historiausuario on historiausuario.idHistoriaUsuario = ticket.creadoPor \n\
+    inner join proyecto on proyecto.idProyecto = historiausuario.idProyecto \n\
+    where proyecto.idOrganizacion = ? \n\
+    order by ticket.fecha DESC',id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -114,13 +118,17 @@ Ticket.orderByDesc = function (result) {
     });
 };
 
-Ticket.orderByAsc = function (result) {
-    dbConn.query('Select * from ticket ORDER BY fecha DESC', function (err, res) {
+Ticket.orderByAsc = function (id,result) {
+    dbConn.query('SELECT ticket.idTicket,ticket.titulo,ticket.fecha,ticket.tipo,ticket.descripcion,ticket.estado, ticket.creadoPor FROM ticket \n\
+    inner join historiausuario on historiausuario.idHistoriaUsuario = ticket.creadoPor \n\
+    inner join proyecto on proyecto.idProyecto = historiausuario.idProyecto \n\
+    where proyecto.idOrganizacion = ? \n\
+    order by ticket.fecha ASC',id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
         } else {
-            console.log('tickets : ', res);
+            console.log('ticket : ', res);
             result(null, res);
         }
     });

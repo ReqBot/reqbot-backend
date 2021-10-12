@@ -248,6 +248,38 @@ HistoriaUsuario.findByOrganizacion = function (id, result) {
     });
 };
 
+HistoriaUsuario.orderByAsc = function (id, result) {
+    dbConn.query('SELECT idHistoriaUsuario,rol,funcionalidad,resultado,fechaModificacion,modificadoPor,\n\
+    idProyecto,estado,identificador, MAX(version) version, prioridad , puntaje FROM historiausuario \n\
+    where historiausuario.idProyecto=? \n\
+    GROUP BY identificador \n\
+    order by nombre ASC', id, function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('historiausuario : ', res);
+            result(null, res);
+        }
+    });
+};
+
+HistoriaUsuario.orderByDesc = function (id, result) {
+    dbConn.query('SELECT idHistoriaUsuario,rol,funcionalidad,resultado,fechaModificacion,modificadoPor,\n\
+    idProyecto,estado,identificador, MAX(version) version, prioridad , puntaje FROM historiausuario \n\
+    where historiausuario.idProyecto=? \n\
+    GROUP BY identificador \n\
+    order by nombre DESC', id, function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('historiausuario : ', res);
+            result(null, res);
+        }
+    });
+};
+
 
 HistoriaUsuario.findByIdProject = function (id, result) {
     dbConn.query("Select * from historiausuario where idProyecto = ? ", id, function (err, res) {

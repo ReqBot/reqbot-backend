@@ -28,6 +28,12 @@ router.get('/download/project/:id', historiausuarioController.downloadPromise);
 
 router.get('/organizacion/:id', historiausuarioController.findByOrganizacion);
 
+//List all HistoriaUsuario by Proyecto ASC
+router.get('/ascendente/:id', historiausuarioController.orderByAsc);
+
+//List all HistoriaUsuario by Proyecto DESC
+router.get('/descendente/:id', historiausuarioController.orderByDesc);
+
 // Retrieve all historiausuario
 router.get('/pendientes', historiausuarioController.findByPendientes);
 

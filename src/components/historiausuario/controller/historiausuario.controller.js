@@ -202,6 +202,26 @@ exports.findByOrganizacion = function (req, res) {
     });
 };
 
+exports.orderByAsc = function (req, res) {
+    HistoriaUsuario.orderByAsc(req.params.id, function (err, historiausuario) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', historiausuario);
+        res.send(historiausuario);
+    });
+};
+
+exports.orderByDesc = function (req, res) {
+    HistoriaUsuario.orderByDesc(req.params.id, function (err, historiausuario) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', historiausuario);
+        res.send(historiausuario);
+    });
+};
+
 
 exports.download = function (req, res) {
     HistoriaUsuario.findByIdProject(req.params.id, function(err, userHistories) {

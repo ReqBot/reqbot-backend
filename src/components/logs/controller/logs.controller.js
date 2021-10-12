@@ -85,3 +85,23 @@ exports.findByOrganizacion = function (req, res) {
         res.send(logs);
     });
 };
+
+exports.orderByAsc = function (req, res) {
+    Logs.orderByAsc(req.params.id, function (err, logs) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', logs);
+        res.send(logs);
+    });
+};
+
+exports.orderByDesc = function (req, res) {
+    Logs.orderByDesc(req.params.id, function (err, logs) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', logs);
+        res.send(logs);
+    });
+};

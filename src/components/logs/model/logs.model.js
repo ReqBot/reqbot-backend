@@ -95,5 +95,38 @@ Logs.findByOrganizacion = function (id, result) {
     });
 };
 
+Logs.orderByAsc = function (id, result) {
+    dbConn.query('select logs.idLogs, \n\
+    logs.nombre,logs.archivo,logs.idProyecto,logs.estado,logs.fecha,logs.nombreProyecto from logs \n\
+    inner join proyecto on proyecto.idProyecto=logs.idProyecto \n\
+    where proyecto.idOrganizacion=? \n\
+    order by logs.fecha ASC', id, function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('logs : ', res);
+            result(null, res);
+        }
+    });
+};
+
+
+Logs.orderByDesc = function (id, result) {
+    dbConn.query('select logs.idLogs, \n\
+    logs.nombre,logs.archivo,logs.idProyecto,logs.estado,logs.fecha,logs.nombreProyecto from logs \n\
+    inner join proyecto on proyecto.idProyecto=logs.idProyecto \n\
+    where proyecto.idOrganizacion=? \n\
+    order by logs.fecha DESC', id, function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('logs : ', res);
+            result(null, res);
+        }
+    });
+};
+
 
 module.exports = Logs;

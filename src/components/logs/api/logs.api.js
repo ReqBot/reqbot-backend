@@ -15,8 +15,14 @@ router.post('/', logsController.create);
 // Retrieve all logs
 router.get('/', logsController.findAll);
 
-// Retrieve all logs
+// Retrieve all logs by Organization
 router.get('/organizacion/:id', logsController.findByOrganizacion);
+
+// Retrieve all logs by Organization ASC
+router.get('/ascendente/:id', logsController.orderByAsc);
+
+// Retrieve all logs by Organization DESC
+router.get('/descendente/:id', logsController.orderByDesc);
 
 // Retrieve a single logs with id
 router.get('/:id', logsController.findById);

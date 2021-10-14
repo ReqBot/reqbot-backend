@@ -58,8 +58,8 @@ UsuarioProyecto.update = function (id, usuarioProyecto, result) {
         });
 };
 
-UsuarioProyecto.delete = function (id, result) {
-    dbConn.query("DELETE FROM usuarioproyecto WHERE idProyecto = ?", [id], function (err, res) {
+UsuarioProyecto.delete = function (idProject,idUser, result) {
+    dbConn.query("DELETE FROM usuarioproyecto WHERE idProyecto = ? and idUsuario = ? ", [idProject,idUser], function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -68,6 +68,18 @@ UsuarioProyecto.delete = function (id, result) {
         }
     });
 };
+
+/*
+UsuarioProyecto.delete = function (idProyecto,idUsuario, result) {
+    dbConn.query("DELETE FROM usuarioproyecto WHERE idProyecto = 3 and idUsuario=1", [3,1], function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            result(null, res);
+        }
+    });
+};*/
 
 
 module.exports = UsuarioProyecto;

@@ -52,9 +52,17 @@ exports.update = function(req, res) {
 
 
 exports.delete = function(req, res) {
-    UsuarioProyecto.delete( req.params.id, function(err, usuarioProyecto) {
+    UsuarioProyecto.delete( req.params.idProject,req.params.idUser, function(err, usuarioProyecto) {
     if (err)
     res.send(err);
     res.json({ error:false, message: 'UsuarioProyecto successfully deleted' });
   });
 };
+/*
+exports.delete = function(req, res) {
+    UsuarioProyecto.delete( req.params.idProyecto,req.params.idUsuario, function(err, usuarioProyecto) {
+    if (err)
+    res.send(err);
+    res.json({ error:false, message: 'UsuarioProyecto successfully deleted' });
+  });
+};*/

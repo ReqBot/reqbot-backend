@@ -15,6 +15,9 @@ router.get('/', usuarioProyectoController.findAll);
 router.put('/:id', usuarioProyectoController.update);
 
 // Delete a usuarioProyecto with id
-router.delete('/:id', usuarioProyectoController.delete);
+//router.delete('project/:idProyecto/user/:idUsuario', usuarioProyectoController.delete);
+
+// Delete a usuarioProyecto with id
+router.delete('/project/:idProject/user/:idUser', usuarioProyectoController.delete);
 
 module.exports = router

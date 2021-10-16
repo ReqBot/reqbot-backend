@@ -153,7 +153,7 @@ exports.changeToInactive = (req, res) => {
 };
 
 exports.orderByMedia = function (req, res) {
-    HistoriaUsuario.orderByMedia(function (err, historiausuario) {
+    HistoriaUsuario.orderByMedia(req.params.id,function (err, historiausuario) {
         console.log('controller')
         if (err)
             res.send(err);
@@ -163,7 +163,7 @@ exports.orderByMedia = function (req, res) {
 };
 
 exports.orderByBajo = function (req, res) {
-    HistoriaUsuario.orderByBajo(function (err, historiausuario) {
+    HistoriaUsuario.orderByBajo(req.params.id, function (err, historiausuario) {
         console.log('controller')
         if (err)
             res.send(err);
@@ -173,7 +173,7 @@ exports.orderByBajo = function (req, res) {
 };
 
 exports.orderByAlta = function (req, res) {
-    HistoriaUsuario.orderByAlta(function (err, historiausuario) {
+    HistoriaUsuario.orderByAlta(req.params.id, function (err, historiausuario) {
         console.log('controller')
         if (err)
             res.send(err);

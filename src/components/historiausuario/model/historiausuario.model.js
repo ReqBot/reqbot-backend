@@ -184,8 +184,8 @@ HistoriaUsuario.changeStateToInactive = function (id, result) {
     })
 };
 
-HistoriaUsuario.orderByMedia = function (result) {
-    dbConn.query('Select * from historiausuario where prioridad="Media"', function (err, res) {
+HistoriaUsuario.orderByMedia = function (id,result) {
+    dbConn.query('Select * from historiausuario where prioridad="Media" and idProyecto=?',[id], function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -196,8 +196,8 @@ HistoriaUsuario.orderByMedia = function (result) {
     });
 };
 
-HistoriaUsuario.orderByBajo = function (result) {
-    dbConn.query('Select * from historiausuario where prioridad="Bajo"', function (err, res) {
+HistoriaUsuario.orderByBajo = function (id,result) {
+    dbConn.query('Select * from historiausuario where prioridad="Bajo" and idProyecto=?',[id], function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -208,8 +208,8 @@ HistoriaUsuario.orderByBajo = function (result) {
     });
 };
 
-HistoriaUsuario.orderByAlta = function (result) {
-    dbConn.query('Select * from historiausuario where prioridad="Alta"', function (err, res) {
+HistoriaUsuario.orderByAlta = function (id,result) {
+    dbConn.query('Select * from historiausuario where prioridad="Alta" and idProyecto=?',[id], function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);

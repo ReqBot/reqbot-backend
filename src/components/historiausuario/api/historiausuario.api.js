@@ -13,11 +13,11 @@ router.use(cors())
 // Create a new historiausuario
 router.post('/', historiausuarioController.create);
 
-router.get('/media', historiausuarioController.orderByMedia);
+router.get('/media/:id', historiausuarioController.orderByMedia);
 
-router.get('/bajo', historiausuarioController.orderByBajo);
+router.get('/bajo/:id', historiausuarioController.orderByBajo);
 
-router.get('/alta', historiausuarioController.orderByAlta);
+router.get('/alta/:id', historiausuarioController.orderByAlta);
 
 router.get('/ultimoidentificador', historiausuarioController.getMaxIdentifier);
 

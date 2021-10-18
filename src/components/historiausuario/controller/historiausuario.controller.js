@@ -98,6 +98,16 @@ exports.findByIdentifier = function (req, res) {
     });
 };
 
+exports.findByLastUserStorie = function (req, res) {
+    HistoriaUsuario.findByLastUserStorie(req.params.id, function (err, historiausuario) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', historiausuario);
+        res.send(historiausuario);
+    });
+};
+
 exports.findByProyectoAprobados = function (req, res) {
     HistoriaUsuario.findByProyectoAprobados(req.params.id, function (err, historiausuario) {
         console.log('controller')

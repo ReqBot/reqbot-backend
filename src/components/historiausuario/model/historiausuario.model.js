@@ -40,7 +40,7 @@ HistoriaUsuario.create = function (newhistoriausuario, result) {
 
 
 HistoriaUsuario.findById = function (id, result) {
-    dbConn.query("Select * from historiausuario where idHistoriaUsuario = ? ", id, function (err, res) {
+    dbConn.query("Select * from historiausuario where idHistoriaUsuario = ? and estado!='Eliminado' ", id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -49,21 +49,9 @@ HistoriaUsuario.findById = function (id, result) {
         }
     });
 };
-/*
+
 HistoriaUsuario.findAll = function (result) {
-    dbConn.query('Select * from historiausuario', function (err, res) {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-        } else {
-            console.log('historiausuario : ', res);
-            result(null, res);
-        }
-    });
-};
-*/
-HistoriaUsuario.findAll = function (result) {
-    dbConn.query('SELECT nombre,idHistoriaUsuario,rol,funcionalidad,resultado,fechaModificacion,modificadoPor,idProyecto,estado,identificador, MAX(version) version, prioridad , puntaje FROM historiausuario GROUP BY identificador ', function (err, res) {
+    dbConn.query('SELECT nombre,idHistoriaUsuario,rol,funcionalidad,resultado,fechaModificacion,modificadoPor,idProyecto,estado,identificador, MAX(version) version, prioridad , puntaje FROM historiausuario where estado!="Eliminado" GROUP BY identificador ', function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -123,7 +111,7 @@ HistoriaUsuario.findByProyectoAprobados = function (id, result) {
 };
 
 HistoriaUsuario.findByIdentifier = function (id, result) {
-    dbConn.query('Select * from historiausuario where identificador = ?', id, function (err, res) {
+    dbConn.query('Select * from historiausuario where identificador = ? and estado!="Eliminado"', id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -174,7 +162,18 @@ HistoriaUsuario.delete = function (id, result) {
 };
 
 HistoriaUsuario.changeStateToInactive = function (id, result) {
-    dbConn.query("UPDATE `bdreqbot`.`historiausuario` SET `estado` = 'Inactivo' WHERE (`idHistoriaUsuario` = ?);",[id], (err, res) => {
+    dbConn.query("UPDATE historiausuario SET `estado` = 'Inactivo' WHERE (`idHistoriaUsuario` = ?);",[id], (err, res) => {
+        if (err) {
+            console.log("error: ", err)
+            result(null,err)
+        }else {
+            result(null,res)
+        }
+    })
+};
+
+HistoriaUsuario.changeStateToDelete = function (id, result) {
+    dbConn.query("UPDATE historiausuario SET `estado` = 'Eliminado' WHERE (`idHistoriaUsuario` = ?);",[id], (err, res) => {
         if (err) {
             console.log("error: ", err)
             result(null,err)
@@ -185,7 +184,7 @@ HistoriaUsuario.changeStateToInactive = function (id, result) {
 };
 
 HistoriaUsuario.orderByMedia = function (id,result) {
-    dbConn.query('Select * from historiausuario where prioridad="Media" and idProyecto=?',[id], function (err, res) {
+    dbConn.query('Select * from historiausuario where prioridad="Media" and idProyecto=? and estado!="Eliminado"',[id], function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -197,7 +196,7 @@ HistoriaUsuario.orderByMedia = function (id,result) {
 };
 
 HistoriaUsuario.orderByBajo = function (id,result) {
-    dbConn.query('Select * from historiausuario where prioridad="Bajo" and idProyecto=?',[id], function (err, res) {
+    dbConn.query('Select * from historiausuario where prioridad="Bajo" and idProyecto=? and estado!="Eliminado"',[id], function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -209,7 +208,7 @@ HistoriaUsuario.orderByBajo = function (id,result) {
 };
 
 HistoriaUsuario.orderByAlta = function (id,result) {
-    dbConn.query('Select * from historiausuario where prioridad="Alta" and idProyecto=?',[id], function (err, res) {
+    dbConn.query('Select * from historiausuario where prioridad="Alta" and idProyecto=? and estado!="Eliminado"',[id], function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -221,7 +220,7 @@ HistoriaUsuario.orderByAlta = function (id,result) {
 };
 
 HistoriaUsuario.getMaxIdentifier = function (result) {
-    dbConn.query('SELECT MAX(identificador) as identificador FROM historiausuario', function (err, res) {
+    dbConn.query('SELECT MAX(identificador) as identificador FROM historiausuario and estado!="Eliminado"', function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -237,6 +236,7 @@ HistoriaUsuario.findByOrganizacion = function (id, result) {
     historiausuario.fechaModificacion, historiausuario.modificadoPor, historiausuario.idProyecto, historiausuario.estado, \n\
     historiausuario.identificador, historiausuario.version, historiausuario.prioridad, historiausuario.puntaje,\n\
     proyecto.idOrganizacion\n\
+    and historiausuario.estado!="Eliminado" \n\
      FROM historiausuario inner join proyecto on proyecto.idProyecto=historiausuario.idProyecto where idOrganizacion=?', id, function (err, res) {
         if (err) {
             console.log("error: ", err);
@@ -252,6 +252,7 @@ HistoriaUsuario.orderByAsc = function (id, result) {
     dbConn.query('SELECT idHistoriaUsuario, nombre,rol,funcionalidad,resultado,fechaModificacion,modificadoPor,\n\
     idProyecto,estado,identificador, MAX(version) version, prioridad , puntaje FROM historiausuario \n\
     where historiausuario.idProyecto=? \n\
+    and historiausuario.estado!="Eliminado" \n\
     GROUP BY identificador \n\
     order by nombre ASC', id, function (err, res) {
         if (err) {
@@ -268,6 +269,7 @@ HistoriaUsuario.orderByDesc = function (id, result) {
     dbConn.query('SELECT idHistoriaUsuario, nombre,rol,funcionalidad,resultado,fechaModificacion,modificadoPor,\n\
     idProyecto,estado,identificador, MAX(version) version, prioridad , puntaje FROM historiausuario \n\
     where historiausuario.idProyecto=? \n\
+    and historiausuario.estado!="Eliminado" \n\
     GROUP BY identificador \n\
     order by nombre DESC', id, function (err, res) {
         if (err) {
@@ -282,7 +284,7 @@ HistoriaUsuario.orderByDesc = function (id, result) {
 
 
 HistoriaUsuario.findByIdProject = function (id, result) {
-    dbConn.query("Select * from historiausuario where idProyecto = ? ", id, function (err, res) {
+    dbConn.query("Select * from historiausuario where idProyecto = ? and historiausuario.estado!='Eliminado' ", id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -294,7 +296,7 @@ HistoriaUsuario.findByIdProject = function (id, result) {
 
 HistoriaUsuario.findByIdProjectPromise = async function (id) {
     return new  Promise( async (resolve,reject) => {
-        dbConn.query("Select * from historiausuario where idProyecto = ? ", id, function (err, res) {
+        dbConn.query("Select * from historiausuario where idProyecto = ? and historiausuario.estado!='Eliminado'", id, function (err, res) {
             if (err) {
                 console.log("error: ", err);
                 return reject(err);

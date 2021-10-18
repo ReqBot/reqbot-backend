@@ -129,3 +129,16 @@ exports.orderByUserDesc = function(req, res) {
         res.send(proyecto);
     });
 };
+
+
+exports.changeStateToDelete = (req, res) => {
+    Proyecto.changeStateToDelete(req.params.id, (err, result) => {
+        if (err) {
+            res.send(err);
+        }
+        res.json({
+            error: false,
+            message: 'Proyecto deleted'
+        })
+    })
+};

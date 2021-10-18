@@ -33,4 +33,6 @@ router.put('/:id', logsController.update);
 // Delete a logs with id
 router.delete('/:id', logsController.delete);
 
+router.get('/delete/:id', logsController.changeStateToDelete);
+
 module.exports = router

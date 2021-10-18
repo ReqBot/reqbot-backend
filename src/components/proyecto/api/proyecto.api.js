@@ -49,5 +49,6 @@ router.delete('/:id', proyectoController.delete);
 
 router.get('/inactive/:id', proyectoController.changeToInactive);
 
+router.get('/delete/:id', proyectoController.changeStateToDelete);
 
 module.exports = router

@@ -38,7 +38,7 @@ Proyecto.findById = function (id, result) {
 };
 
 Proyecto.findByOrganizacion = function (id, result) {
-    dbConn.query('Select * from proyecto where idOrganizacion = ? ',id, function (err, res) {
+    dbConn.query('Select * from proyecto where idOrganizacion = ? and estado!="Eliminado" ',id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -50,7 +50,7 @@ Proyecto.findByOrganizacion = function (id, result) {
 };
 
 Proyecto.getUsers = function (id, result) {
-    dbConn.query('SELECT * FROM proyecto inner join usuarioproyecto on usuarioproyecto.idProyecto=proyecto.idProyecto where usuarioproyecto.idUsuario=?',id, function (err, res) {
+    dbConn.query('SELECT * FROM proyecto inner join usuarioproyecto on usuarioproyecto.idProyecto=proyecto.idProyecto where usuarioproyecto.idUsuario=? and proyecto.estado!="Eliminado"',id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -63,7 +63,7 @@ Proyecto.getUsers = function (id, result) {
 
 
 Proyecto.findAll = function (result) {
-    dbConn.query("Select * from proyecto", function (err, res) {
+    dbConn.query("Select * from proyecto where estado!='Eliminado'", function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -95,8 +95,9 @@ Proyecto.update = function (id, proyecto, result) {
             }
         });
 };
+
 Proyecto.changeStateToInactive = function (id, result) {
-    dbConn.query("UPDATE `bdreqbot`.`proyecto` SET `estado` = 'Inactivo' WHERE (`idProyecto` = ?);",[id], (err, res) => {
+    dbConn.query("UPDATE proyecto SET `estado` = 'Inactivo' WHERE (`idProyecto` = ?);",[id], (err, res) => {
         if (err) {
             console.log("error: ", err)
             result(null,err)
@@ -104,7 +105,8 @@ Proyecto.changeStateToInactive = function (id, result) {
             result(null,res)
         }
     })
-}
+};
+
 Proyecto.delete = function (id, result) {
     dbConn.query("DELETE FROM proyecto WHERE idProyecto = ?", [id], function (err, res) {
         if (err) {
@@ -117,7 +119,7 @@ Proyecto.delete = function (id, result) {
 };
 
 Proyecto.orderByAsc = function (result) {
-    dbConn.query('Select * from proyecto ORDER BY nombre ASC', function (err, res) {
+    dbConn.query('Select * from proyecto where estado!="Eliminado" ORDER BY nombre ASC', function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -133,7 +135,7 @@ Proyecto.orderByUserAsc = function (id, result) {
     dbConn.query('select proyecto.idProyecto, proyecto.nombre, proyecto.fechaModificacion, \n\
      proyecto.etiqueta, proyecto.estado, proyecto.numeroDeHistorias, proyecto.numeroUsuarios, proyecto.idOrganizacion, proyecto.descripcion \n\
     from proyecto inner join usuarioproyecto on usuarioproyecto.idProyecto=proyecto.idProyecto \n\
-    where usuarioproyecto.idUsuario=? order by proyecto.nombre ASC ',id, function (err, res) {
+    where usuarioproyecto.idUsuario=? and proyecto.estado!="Eliminado" order by proyecto.nombre ASC ',id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -146,7 +148,7 @@ Proyecto.orderByUserAsc = function (id, result) {
 
 
 Proyecto.orderByDesc = function (result) {
-    dbConn.query('Select * from proyecto ORDER BY nombre DESC', function (err, res) {
+    dbConn.query('Select * from proyecto where estado!="Eliminado" ORDER BY nombre DESC', function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -161,7 +163,7 @@ Proyecto.orderByUserDesc = function (id, result) {
     dbConn.query('select proyecto.idProyecto, proyecto.nombre, proyecto.fechaModificacion, \n\
      proyecto.etiqueta, proyecto.estado, proyecto.numeroDeHistorias, proyecto.numeroUsuarios, proyecto.idOrganizacion, proyecto.descripcion \n\
     from proyecto inner join usuarioproyecto on usuarioproyecto.idProyecto=proyecto.idProyecto \n\
-    where usuarioproyecto.idUsuario=? order by proyecto.nombre DESC ',id, function (err, res) {
+    where usuarioproyecto.idUsuario=? and proyecto.estado!="Eliminado" order by proyecto.nombre DESC ',id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -170,6 +172,17 @@ Proyecto.orderByUserDesc = function (id, result) {
             result(null, res);
         }
     });
+};
+
+Proyecto.changeStateToDelete = function (id, result) {
+    dbConn.query("UPDATE `proyecto` SET `estado` = 'Eliminado' WHERE (`idProyecto` = ?);",[id], (err, res) => {
+        if (err) {
+            console.log("error: ", err)
+            result(null,err)
+        }else {
+            result(null,res)
+        }
+    })
 };
 
 

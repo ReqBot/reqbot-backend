@@ -193,6 +193,18 @@ exports.changeToInactive = (req, res) => {
     })
 };
 
+exports.changeStateToDelete = (req, res) => {
+    Usuario.changeStateToDelete(req.params.id, (err, result) => {
+        if (err) {
+            res.send(err);
+        }
+        res.json({
+            error: false,
+            message: 'Usuario deleted'
+        })
+    })
+};
+
 exports.changePassword = async (req, res) => {
     let user;
     Usuario.findByCorreo(req.body.correo, async (err, usuario) => {

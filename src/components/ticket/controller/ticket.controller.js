@@ -91,3 +91,15 @@ exports.orderByDesc = function (req, res) {
         res.send(ticket);
     });
 };
+
+exports.changeStateToDelete = (req, res) => {
+    Ticket.changeStateToDelete(req.params.id, (err, result) => {
+        if (err) {
+            res.send(err);
+        }
+        res.json({
+            error: false,
+            message: 'Ticket deleted'
+        })
+    })
+};

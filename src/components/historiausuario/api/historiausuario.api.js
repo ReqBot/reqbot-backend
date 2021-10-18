@@ -63,6 +63,7 @@ router.delete('/:id', historiausuarioController.delete);
 
 router.get('/inactive/:id', historiausuarioController.changeToInactive);
 
+router.get('/delete/:id', historiausuarioController.changeStateToDelete);
 
 
 

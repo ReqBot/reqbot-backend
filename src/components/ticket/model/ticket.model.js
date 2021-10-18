@@ -36,7 +36,7 @@ Ticket.findById = function (id, result) {
 };
 
 Ticket.findAll = function (result) {
-    dbConn.query("Select * from ticket", function (err, res) {
+    dbConn.query("Select * from ticket where estado!='Eliminado'", function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -48,7 +48,6 @@ Ticket.findAll = function (result) {
 };
 
 Ticket.findByOrganizacion = function (id,result) {
-    //dbConn.query('select * from usuario inner join usuarioproyecto on usuarioproyecto.idUsuario=usuario.idUsuario where usuarioproyecto.idProyecto = ?',id, function (err, res) {
     dbConn.query('Select \n\
     ticket.idTicket, \n\
     ticket.titulo,\n\
@@ -60,7 +59,7 @@ Ticket.findByOrganizacion = function (id,result) {
     proyecto.idOrganizacion\n\
     from ticket\n\
     inner join historiausuario on historiausuario.idHistoriaUsuario = ticket.creadoPor\n\
-    inner join proyecto on proyecto.idProyecto = historiausuario.idProyecto where proyecto.idOrganizacion=?',id, function (err, res) {
+    inner join proyecto on proyecto.idProyecto = historiausuario.idProyecto where proyecto.idOrganizacion=? and ticket.estado!="Eliminado"',id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -106,7 +105,7 @@ Ticket.orderByDesc = function (id,result) {
     dbConn.query('SELECT ticket.idTicket,ticket.titulo,ticket.fecha,ticket.tipo,ticket.descripcion,ticket.estado, ticket.creadoPor FROM ticket \n\
     inner join historiausuario on historiausuario.idHistoriaUsuario = ticket.creadoPor \n\
     inner join proyecto on proyecto.idProyecto = historiausuario.idProyecto \n\
-    where proyecto.idOrganizacion = ? \n\
+    where proyecto.idOrganizacion = ? and ticket.estado!="Eliminado" \n\
     order by ticket.fecha DESC',id, function (err, res) {
         if (err) {
             console.log("error: ", err);
@@ -122,7 +121,7 @@ Ticket.orderByAsc = function (id,result) {
     dbConn.query('SELECT ticket.idTicket,ticket.titulo,ticket.fecha,ticket.tipo,ticket.descripcion,ticket.estado, ticket.creadoPor FROM ticket \n\
     inner join historiausuario on historiausuario.idHistoriaUsuario = ticket.creadoPor \n\
     inner join proyecto on proyecto.idProyecto = historiausuario.idProyecto \n\
-    where proyecto.idOrganizacion = ? \n\
+    where proyecto.idOrganizacion = ? and ticket.estado!="Eliminado" \n\
     order by ticket.fecha ASC',id, function (err, res) {
         if (err) {
             console.log("error: ", err);
@@ -132,6 +131,17 @@ Ticket.orderByAsc = function (id,result) {
             result(null, res);
         }
     });
+};
+
+Ticket.changeStateToDelete = function (id, result) {
+    dbConn.query("UPDATE `ticket` SET `estado` = 'Eliminado' WHERE (`idTicket` = ?);",[id], (err, res) => {
+        if (err) {
+            console.log("error: ", err)
+            result(null,err)
+        }else {
+            result(null,res)
+        }
+    })
 };
 
 

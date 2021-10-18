@@ -31,7 +31,7 @@ Usuario.create = function (newusuario, result) {
 };
 
 Usuario.findByCorreo = function (correo, result) {
-    dbConn.query("Select * from usuario where correo = ? ",correo,function (err,res) {
+    dbConn.query("Select * from usuario where correo = ? and estado!='Eliminado'",correo,function (err,res) {
         if(err){
             console.log("Error in Find by Correo: " + err);
             result(null, err);
@@ -63,8 +63,21 @@ Usuario.changeStateToInactive = function (id, result) {
     })
 }
 
+
+Usuario.changeStateToDelete = function (id, result) {
+    dbConn.query("UPDATE `usuario` SET `estado` = 'Eliminado' WHERE (`idUsuario` = ?);",[id], (err, res) => {
+        if (err) {
+            console.log("error: ", err)
+            result(null,err)
+        }else {
+            result(null,res)
+        }
+    })
+}
+
+
 Usuario.findAll = function (result) {
-    dbConn.query("Select * from usuario", function (err, res) {
+    dbConn.query("Select * from usuario where estado!='Eliminado'", function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -76,7 +89,7 @@ Usuario.findAll = function (result) {
 };
 
 Usuario.findByOrganizacion = function (id,result) {
-    dbConn.query('SELECT idUsuario,nombre,apellido,correo,rol,estado,idOrganizacion FROM usuario where idOrganizacion=?',id, function (err, res) {
+    dbConn.query('SELECT idUsuario,nombre,apellido,correo,rol,estado,idOrganizacion FROM usuario where idOrganizacion=? and estado!="Eliminado"',id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -88,7 +101,7 @@ Usuario.findByOrganizacion = function (id,result) {
 };
 
 Usuario.findByUsuarioPorProyecto = function (id,result) {
-    dbConn.query('select * from usuario inner join usuarioproyecto on usuarioproyecto.idUsuario=usuario.idUsuario where usuarioproyecto.idProyecto = ?',id, function (err, res) {
+    dbConn.query('select * from usuario inner join usuarioproyecto on usuarioproyecto.idUsuario=usuario.idUsuario where usuarioproyecto.idProyecto = ? and usuario.estado!="Eliminado"',id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -135,7 +148,7 @@ Usuario.updateEstado = function (id, usuario, result) {
 };
 
 Usuario.delete = function (id, result) {
-    dbConn.query("DELETE FROM usuario WHERE idUsuario = ?", [id], function (err, res) {
+    dbConn.query("DELETE FROM usuario WHERE idUsuario = ? ", [id], function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -146,7 +159,7 @@ Usuario.delete = function (id, result) {
 };
 
 Usuario.changePassword = function (user,result) {
-    dbConn.query("UPDATE `usuario` SET `contrasenia` = ? WHERE (`idUsuario` = ?);",[user.contrasenia,user.idUsuario],function (err,res){
+    dbConn.query("UPDATE `usuario` SET `contrasenia` = ? WHERE (`idUsuario` = ?) and estado!='Eliminado'",[user.contrasenia,user.idUsuario],function (err,res){
         if (!err) {
             result(null, res);
         } else {
@@ -158,7 +171,7 @@ Usuario.changePassword = function (user,result) {
 
 Usuario.findByIdPromise = async function (id) {
     return new  Promise( async (resolve,reject) => {
-        dbConn.query("Select * from usuario where idusuario = ? ", id, function (err, res) {
+        dbConn.query("Select * from usuario where idusuario = ? and estado!='Eliminado'", id, function (err, res) {
             if (err) {
                 console.log("error: ", err);
                 reject(err);

@@ -152,6 +152,18 @@ exports.changeToInactive = (req, res) => {
     })
 };
 
+exports.changeStateToDelete = (req, res) => {
+    HistoriaUsuario.changeStateToDelete(req.params.id, (err, result) => {
+        if (err) {
+            res.send(err);
+        }
+        res.json({
+            error: false,
+            message: 'HistoriaUsuario deleted'
+        })
+    })
+};
+
 exports.orderByMedia = function (req, res) {
     HistoriaUsuario.orderByMedia(req.params.id,function (err, historiausuario) {
         console.log('controller')

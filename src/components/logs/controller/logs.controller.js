@@ -105,3 +105,16 @@ exports.orderByDesc = function (req, res) {
         res.send(logs);
     });
 };
+
+
+exports.changeStateToDelete = (req, res) => {
+    Logs.changeStateToDelete(req.params.id, (err, result) => {
+        if (err) {
+            res.send(err);
+        }
+        res.json({
+            error: false,
+            message: 'Log deleted'
+        })
+    })
+};

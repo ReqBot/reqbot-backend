@@ -35,4 +35,6 @@ router.put('/:id', ticketController.update);
 // Delete a ticket with id
 router.delete('/:id', ticketController.delete);
 
+router.get('/delete/:id', ticketController.changeStateToDelete);
+
 module.exports = router

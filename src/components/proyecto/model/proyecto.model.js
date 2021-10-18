@@ -128,6 +128,23 @@ Proyecto.orderByAsc = function (result) {
     });
 };
 
+
+Proyecto.orderByUserAsc = function (id, result) {
+    dbConn.query('select proyecto.idProyecto, proyecto.nombre, proyecto.fechaModificacion, \n\
+     proyecto.etiqueta, proyecto.estado, proyecto.numeroDeHistorias, proyecto.numeroUsuarios, proyecto.idOrganizacion, proyecto.descripcion \n\
+    from proyecto inner join usuarioproyecto on usuarioproyecto.idProyecto=proyecto.idProyecto \n\
+    where usuarioproyecto.idUsuario=? order by proyecto.nombre ASC ',id, function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('Proyecto : ', res);
+            result(null, res);
+        }
+    });
+};
+
+
 Proyecto.orderByDesc = function (result) {
     dbConn.query('Select * from proyecto ORDER BY nombre DESC', function (err, res) {
         if (err) {
@@ -139,6 +156,23 @@ Proyecto.orderByDesc = function (result) {
         }
     });
 };
+
+Proyecto.orderByUserDesc = function (id, result) {
+    dbConn.query('select proyecto.idProyecto, proyecto.nombre, proyecto.fechaModificacion, \n\
+     proyecto.etiqueta, proyecto.estado, proyecto.numeroDeHistorias, proyecto.numeroUsuarios, proyecto.idOrganizacion, proyecto.descripcion \n\
+    from proyecto inner join usuarioproyecto on usuarioproyecto.idProyecto=proyecto.idProyecto \n\
+    where usuarioproyecto.idUsuario=? order by proyecto.nombre DESC ',id, function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+        } else {
+            console.log('Proyecto : ', res);
+            result(null, res);
+        }
+    });
+};
+
+
 
 
 module.exports = Proyecto;

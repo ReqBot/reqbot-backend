@@ -22,7 +22,13 @@ router.get('/', proyectoController.findAll);
 router.get('/ascendente', proyectoController.orderByAsc);
 
 // Retrieve all proyecto
+router.get('/ascendente/:id', proyectoController.orderByUserAsc);
+
+// Retrieve all proyecto
 router.get('/descendente', proyectoController.orderByDesc);
+
+// Retrieve all proyecto
+router.get('/descendente/:id', proyectoController.orderByUserDesc);
 
 // Retrieve a single proyecto with id
 router.get('/:id', proyectoController.findById);

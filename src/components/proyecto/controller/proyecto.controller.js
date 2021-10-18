@@ -100,8 +100,28 @@ exports.orderByAsc = function (req, res) {
     });
 };
 
+exports.orderByUserAsc = function(req, res) {
+    Proyecto.orderByUserAsc(req.params.id,function (err, proyecto) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', proyecto);
+        res.send(proyecto);
+    });
+};
+
 exports.orderByDesc = function (req, res) {
     Proyecto.orderByDesc(function (err, proyecto) {
+        console.log('controller')
+        if (err)
+            res.send(err);
+        console.log('res', proyecto);
+        res.send(proyecto);
+    });
+};
+
+exports.orderByUserDesc = function(req, res) {
+    Proyecto.orderByUserDesc(req.params.id,function (err, proyecto) {
         console.log('controller')
         if (err)
             res.send(err);

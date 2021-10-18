@@ -249,7 +249,7 @@ HistoriaUsuario.findByOrganizacion = function (id, result) {
 };
 
 HistoriaUsuario.orderByAsc = function (id, result) {
-    dbConn.query('SELECT idHistoriaUsuario,rol,funcionalidad,resultado,fechaModificacion,modificadoPor,\n\
+    dbConn.query('SELECT idHistoriaUsuario, nombre,rol,funcionalidad,resultado,fechaModificacion,modificadoPor,\n\
     idProyecto,estado,identificador, MAX(version) version, prioridad , puntaje FROM historiausuario \n\
     where historiausuario.idProyecto=? \n\
     GROUP BY identificador \n\
@@ -265,7 +265,7 @@ HistoriaUsuario.orderByAsc = function (id, result) {
 };
 
 HistoriaUsuario.orderByDesc = function (id, result) {
-    dbConn.query('SELECT idHistoriaUsuario,rol,funcionalidad,resultado,fechaModificacion,modificadoPor,\n\
+    dbConn.query('SELECT idHistoriaUsuario, nombre,rol,funcionalidad,resultado,fechaModificacion,modificadoPor,\n\
     idProyecto,estado,identificador, MAX(version) version, prioridad , puntaje FROM historiausuario \n\
     where historiausuario.idProyecto=? \n\
     GROUP BY identificador \n\

@@ -233,7 +233,7 @@ HistoriaUsuario.getMaxIdentifier = function (result) {
 };
 
 HistoriaUsuario.findByOrganizacion = function (id, result) {
-    dbConn.query('SELECT historiausuario.nombre, historiausuario.rol, historiausuario.funcionalidad, historiausuario.resultado, \n\
+    dbConn.query('SELECT historiausuario.idHistoriaUsuario,historiausuario.nombre, historiausuario.rol, historiausuario.funcionalidad, historiausuario.resultado, \n\
     historiausuario.fechaModificacion, historiausuario.modificadoPor, historiausuario.idProyecto, historiausuario.estado, \n\
     historiausuario.identificador, historiausuario.version, historiausuario.prioridad, historiausuario.puntaje,\n\
     proyecto.idOrganizacion\n\

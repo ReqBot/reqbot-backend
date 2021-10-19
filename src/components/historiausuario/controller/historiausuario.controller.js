@@ -419,7 +419,7 @@ exports.downloadPromise = async function (req, res) {
                                     stack:  [
                                         'Modificado por',
                                         { text:' ', style: 'numberUs' },
-                                        { text:`${user[0].nombre} ${user[0].apellido}`, style: 'numberUs'},
+                                        { text:`User`, style: 'numberUs'},
                                         { text:' ', style: 'numberUs' },
                                     ]
                                 }, {}],

@@ -8,6 +8,7 @@ const {
     authCliente,
     authAnalista
 } = require("../../auth/auth");
+
 router.use(cors())
 
 // Create a new historiausuario

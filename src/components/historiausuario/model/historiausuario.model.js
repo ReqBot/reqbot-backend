@@ -264,9 +264,9 @@ HistoriaUsuario.findByOrganizacion = function (id, result) {
 };
 
 HistoriaUsuario.orderByAsc = function (id, result) {
-    dbConn.query('SELECT MAX(idHistoriaUsuario) idHistoriaUsuario,MAX(nombre) nombre,MAX(rol) rol,MAX(funcionalidad) funcionalidad,MAX(resultado) resultado, \n\
-    MAX(fechaModificacion) fechaModificacion,MAX(modificadoPor) modificadoPor,MAX(idProyecto) idProyecto,MAX(estado) estado,MAX(identificador) identificador, \n\
-    MAX(version) version,MAX(prioridad) prioridad,MAX(puntaje) puntaje FROM historiausuario  \n\
+    dbConn.query('SELECT MAX(idHistoriaUsuario) as idHistoriaUsuario,MAX(nombre) as nombre,MAX(rol) as rol,MAX(funcionalidad) as funcionalidad,MAX(resultado) as resultado, \n\
+    MAX(fechaModificacion) as fechaModificacion,MAX(modificadoPor) as modificadoPor,MAX(idProyecto) as idProyecto,MAX(estado) as estado,MAX(identificador) as identificador, \n\
+    MAX(version) as version,MAX(prioridad) as prioridad,MAX(puntaje) as puntaje FROM historiausuario  \n\
         where historiausuario.idProyecto=? \n\
         and historiausuario.estado!="Eliminado" \n\
         GROUP BY identificador \n\
@@ -282,9 +282,9 @@ HistoriaUsuario.orderByAsc = function (id, result) {
 };
 
 HistoriaUsuario.orderByDesc = function (id, result) {
-    dbConn.query('SELECT MAX(idHistoriaUsuario) idHistoriaUsuario,MAX(nombre) nombre,MAX(rol) rol,MAX(funcionalidad) funcionalidad,MAX(resultado) resultado, \n\
-    MAX(fechaModificacion) fechaModificacion,MAX(modificadoPor) modificadoPor,MAX(idProyecto) idProyecto,MAX(estado) estado,MAX(identificador) identificador, \n\
-    MAX(version) version,MAX(prioridad) prioridad,MAX(puntaje) puntaje FROM historiausuario  \n\
+    dbConn.query('SELECT MAX(idHistoriaUsuario) as idHistoriaUsuario,MAX(nombre) as nombre,MAX(rol) as rol,MAX(funcionalidad) as funcionalidad,MAX(resultado) as resultado, \n\
+    MAX(fechaModificacion) as fechaModificacion,MAX(modificadoPor) as modificadoPor,MAX(idProyecto) as idProyecto,MAX(estado) as estado,MAX(identificador) as identificador, \n\
+    MAX(version) as version,MAX(prioridad) as prioridad,MAX(puntaje) as puntaje FROM historiausuario  \n\
         where historiausuario.idProyecto=? \n\
         and historiausuario.estado!="Eliminado" \n\
         GROUP BY identificador \n\
@@ -301,8 +301,9 @@ HistoriaUsuario.orderByDesc = function (id, result) {
 
 
 HistoriaUsuario.findByIdProject = function (id, result) {
-    dbConn.query("Select MAX(idHistoriaUsuario),MAX(nombre),MAX(rol),MAX(funcionalidad),MAX(resultado), \n\
-    MAX(fechaModificacion),MAX(modificadoPor),MAX(idProyecto),MAX(estado),MAX(identificador),MAX(version) version,MAX(prioridad),MAX(puntaje) \n\
+    dbConn.query("Select MAX(idHistoriaUsuario) as idHistoriaUsuario,MAX(nombre) as nombre,MAX(rol) as rol,MAX(funcionalidad) as funcionalidad,MAX(resultado) as resultado, \n\
+    MAX(fechaModificacion) as fechaModificacion,MAX(modificadoPor) as modificadoPor,MAX(idProyecto) as idProyecto,MAX(estado) as estado,MAX(identificador) as identificador, \n\
+    MAX(version) as version,MAX(prioridad) as prioridad,MAX(puntaje) as puntaje \n\
     from historiausuario where historiausuario.idProyecto=? and historiausuario.estado!='Eliminado' group by identificador; ", id, function (err, res) {
         if (err) {
             console.log("error: ", err);

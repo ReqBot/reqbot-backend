@@ -84,7 +84,7 @@ Logs.findByOrganizacion = function (id, result) {
      logs.estado, \n\
      logs.fecha,  \n\
      logs.nombreProyecto \n\
-    FROM logs inner join proyecto on proyecto.idProyecto=logs.idProyecto where proyecto.idOrganizacion=?  and  estado!="Eliminado" ', id, function (err, res) {
+    FROM logs inner join proyecto on proyecto.idProyecto=logs.idProyecto where proyecto.idOrganizacion=?  and  logs.estado!="Eliminado" ', id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);

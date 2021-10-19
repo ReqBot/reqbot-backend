@@ -315,7 +315,7 @@ HistoriaUsuario.findByIdProject = function (id, result) {
 
 HistoriaUsuario.findByIdProjectPromise = async function (id) {
     return new  Promise( async (resolve,reject) => {
-        dbConn.query("Select * from historiausuario where idProyecto = ? and estado != 'Eliminado'", id, function (err, res) {
+        dbConn.query("Select * from historiausuario where idProyecto = ? and estado != 'Eliminado' and modificadoPor!=0", id, function (err, res) {
             if (err) {
                 console.log("error: ", err);
                 return reject(err);

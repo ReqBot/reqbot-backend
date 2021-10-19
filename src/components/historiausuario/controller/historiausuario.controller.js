@@ -2,16 +2,12 @@
 
 const HistoriaUsuario = require('../model/historiausuario.model');
 const styles = require('../../pdfConfig/styles');
-const {
-    content
-} = require('../../pdfConfig/pdfContentUH');
+const {content} = require('../../pdfConfig/pdfContentUH');
 const PdfPrinter = require('pdfmake');
 const fs = require('fs');
 
 const path = require('path');
-const {
-    Usuario
-} = require("../../usuario/model/usuario.model"); // path is give you a working directory path.resolve() and you can give your font file path.
+const {Usuario} = require("../../usuario/model/usuario.model"); // path is give you a working directory path.resolve() and you can give your font file path.
 
 const fontDescriptors = {
     Roboto: {
@@ -28,19 +24,19 @@ const printer = new PdfPrinter(fontDescriptors);
 exports.create = function (req, res) {
     const new_historiausuario = new HistoriaUsuario(req.body);
 
-    HistoriaUsuario.create(new_historiausuario, function (err, historiausuario) {
-        if (err) {
+        HistoriaUsuario.create(new_historiausuario, function (err, historiausuario) {
+            if (err){
+                res.json({
+                    error: true,
+                    message: "HistoriaUsuario cant added!"
+                });
+            }                
             res.json({
-                error: true,
-                message: "HistoriaUsuario cant added!"
+                error: false,
+                message: "HistoriaUsuario added successfully!",
+                data: historiausuario
             });
-        }
-        res.json({
-            error: false,
-            message: "HistoriaUsuario added successfully!",
-            data: historiausuario
         });
-    });
 };
 
 
@@ -179,7 +175,7 @@ exports.changeStateToDelete = (req, res) => {
 };
 
 exports.orderByMedia = function (req, res) {
-    HistoriaUsuario.orderByMedia(req.params.id, function (err, historiausuario) {
+    HistoriaUsuario.orderByMedia(req.params.id,function (err, historiausuario) {
         console.log('controller')
         if (err)
             res.send(err);
@@ -250,158 +246,89 @@ exports.orderByDesc = function (req, res) {
 
 
 exports.download = function (req, res) {
-    HistoriaUsuario.findByIdProject(req.params.id, function (err, userHistories) {
+    HistoriaUsuario.findByIdProject(req.params.id, function(err, userHistories) {
         if (err)
             res.send(err);
-        else {
+        else{
             const arrPdfUserHistories = userHistories[0];
             for (let uh in userHistories) {
-                Usuario.findById(userHistories[uh].modificadoPor, (err, user) => {
-                    if (err)
+                Usuario.findById(userHistories[uh].modificadoPor, (err, user) =>{
+                    if(err)
                         res.send(err);
                     else {
                         let docDefinition = {
-                            content: [{
-                                color: '#444',
-                                style: 'header',
-                                table: {
-                                    heights: ['*', 120, 70, 70, 70, 100],
-                                    widths: [170, '*', 300],
-                                    headerRows: 1,
-                                    body: [
-                                        [{
-                                            text: "Header",
-                                            colSpan: 3,
-                                            alignment: 'center'
-                                        }, {}, {}],
-                                        [{
-                                            stack: [
-                                                'Numero',
-                                                {
-                                                    text: ' ',
-                                                    style: 'numberUs'
-                                                },
-                                                {
-                                                    text: `${userHistories[uh].idHistoriaUsuario}`,
-                                                    style: 'numberUH'
-                                                },
-                                                {
-                                                    text: ' ',
-                                                    style: 'numberUs'
-                                                },
-                                            ]
-                                        }, {
-                                            stack: [
-                                                'Nombre',
-                                                {
-                                                    text: ' ',
-                                                    style: 'numberUs'
-                                                },
-                                                {
-                                                    text: ' ',
-                                                    style: 'numberUs'
-                                                },
-                                                {
-                                                    text: ' ',
-                                                    style: 'numberUs'
-                                                },
-                                                {
-                                                    text: ' ',
-                                                    style: 'numberUs'
-                                                },
-                                                {
-                                                    text: ' ',
-                                                    style: 'numberUs'
-                                                },
-                                                {
-                                                    text: `${uh.nombre}`,
-                                                    style: 'numberUs'
-                                                },
+                            content: [
+                                {
+                                    color: '#444',
+                                    style: 'header',
+                                    table: {
+                                        heights: ['*', 120, 70, 70, 70, 100],
+                                        widths: [170, '*', 300],
+                                        headerRows:1,
+                                        body: [
+                                            [ {text: "Header" ,colSpan: 3, alignment: 'center'},{},{} ],
+                                            [ {
+                                                stack:  [
+                                                    'Numero',
+                                                    { text:' ', style: 'numberUs' },
+                                                    { text:`${userHistories[uh].idHistoriaUsuario}`, style: 'numberUH'},
+                                                    { text:' ', style: 'numberUs' },
+                                                ]
+                                            }, {
+                                                stack:  [
+                                                    'Nombre',
+                                                    { text:' ', style: 'numberUs' },
+                                                    { text:' ', style: 'numberUs' },
+                                                    { text:' ', style: 'numberUs' },
+                                                    { text:' ', style: 'numberUs' },
+                                                    { text:' ', style: 'numberUs' },
+                                                    { text:`${uh.nombre}`, style: 'numberUs' },
 
+                                                ],  colSpan:2, rowSpan:4, alignment: 'center'},{} ],
+                                            [ {
+                                                stack:  [
+                                                    'Prioridad',
+                                                    { text:' ', style: 'numberUs' },
+                                                    { text:`${userHistories[uh].idHistoriaUsuario}`, style: 'numberUs'},
+                                                    { text:' ', style: 'numberUs' },
+                                                ]
+                                            }, {}
                                             ],
-                                            colSpan: 2,
-                                            rowSpan: 4,
-                                            alignment: 'center'
-                                        }, {}],
-                                        [{
-                                            stack: [
-                                                'Prioridad',
-                                                {
-                                                    text: ' ',
-                                                    style: 'numberUs'
-                                                },
-                                                {
-                                                    text: `${userHistories[uh].idHistoriaUsuario}`,
-                                                    style: 'numberUs'
-                                                },
-                                                {
-                                                    text: ' ',
-                                                    style: 'numberUs'
-                                                },
-                                            ]
-                                        }, {}],
-                                        [{
-                                            stack: [
-                                                'Puntos Estimados',
-                                                {
-                                                    text: ' ',
-                                                    style: 'numberUs'
-                                                },
-                                                {
-                                                    text: `${user[0].nombre}`,
-                                                    style: 'numberUs'
-                                                },
-                                                {
-                                                    text: ' ',
-                                                    style: 'numberUs'
-                                                },
-                                            ]
-                                        }, {}],
-                                        [{
-                                            stack: [
-                                                'Modificado por',
-                                                {
-                                                    text: ' ',
-                                                    style: 'numberUs'
-                                                },
-                                                {
-                                                    text: `${user[0].nombre}`,
-                                                    style: 'numberUs'
-                                                },
-                                                {
-                                                    text: ' ',
-                                                    style: 'numberUs'
-                                                },
-                                            ]
-                                        }, {}],
-                                        [{
+                                            [ {
+                                                stack:  [
+                                                    'Puntos Estimados',
+                                                    { text:' ', style: 'numberUs' },
+                                                    { text:`${user[0].nombre}`, style: 'numberUs'},
+                                                    { text:' ', style: 'numberUs' },
+                                                ]
+                                            }, {}],
+                                            [ {
+                                                stack:  [
+                                                    'Modificado por',
+                                                    { text:' ', style: 'numberUs' },
+                                                    { text:`${user[0].nombre}`, style: 'numberUs'},
+                                                    { text:' ', style: 'numberUs' },
+                                                ]
+                                            }, {}],
+                                            [ {
 
-                                            stack: [
-                                                'Descripcion',
-                                                {
-                                                    text: ' ',
-                                                    style: 'numberUs'
-                                                },
-                                                {
-                                                    text: `${userHistories[uh].funcionalidad}`,
-                                                    style: 'description'
-                                                },
-                                                {
-                                                    text: ' ',
-                                                    style: 'numberUs'
-                                                },
-                                            ],
-                                            colSpan: 3
-                                        }, {}, {}]
+                                                stack:  [
+                                                    'Descripcion',
+                                                    { text:' ', style: 'numberUs' },
+                                                    { text:`${userHistories[uh].funcionalidad}`, style: 'description'},
+                                                    { text:' ', style: 'numberUs' },
+                                                ],
+                                                colSpan:3}, {},{}]
 
-                                    ]
+                                        ]
+                                    }
                                 }
-                            }],
+                            ],
                             styles: {
                                 header: {
                                     fontSize: 17,
                                     bold: true,
-                                    margin: [10, 10, 10, 10]
+                                    margin: [10,10,10, 10]
                                 },
                                 tableHeader: {
                                     bold: true,
@@ -442,149 +369,79 @@ exports.downloadPromise = async function (req, res) {
         var arrPdfUserHistories = [];
         for (let uh in userHistories) {
             var user = await Usuario.findByIdPromise(userHistories[uh].modificadoPor)
-
             let docDefinition = {
-                content: [{
-                    color: '#444',
-                    style: 'header',
-                    table: {
-                        heights: ['*', 120, 70, 70, 70, 100],
-                        widths: [170, '*', 300],
-                        headerRows: 1,
-                        body: [
-                            [{
-                                text: "Header",
-                                colSpan: 3,
-                                alignment: 'center'
-                            }, {}, {}],
-                            [{
-                                stack: [
-                                    'Numero',
-                                    {
-                                        text: ' ',
-                                        style: 'numberUs'
-                                    },
-                                    {
-                                        text: `${userHistories[uh].idHistoriaUsuario}`,
-                                        style: 'numberUH'
-                                    },
-                                    {
-                                        text: ' ',
-                                        style: 'numberUs'
-                                    },
-                                ]
-                            }, {
-                                stack: [
-                                    'Nombre',
-                                    {
-                                        text: ' ',
-                                        style: 'numberUs'
-                                    },
-                                    {
-                                        text: ' ',
-                                        style: 'numberUs'
-                                    },
-                                    {
-                                        text: ' ',
-                                        style: 'numberUs'
-                                    },
-                                    {
-                                        text: ' ',
-                                        style: 'numberUs'
-                                    },
-                                    {
-                                        text: ' ',
-                                        style: 'numberUs'
-                                    },
-                                    {
-                                        text: `${userHistories[uh].nombre}`,
-                                        style: 'numberUs'
-                                    },
+                content: [
+                    {
+                        color: '#444',
+                        style: 'header',
+                        table: {
+                            heights: ['*', 120, 70, 70, 70, 100],
+                            widths: [170, '*', 300],
+                            headerRows:1,
+                            body: [
+                                [ {text: "Header" ,colSpan: 3, alignment: 'center'},{},{} ],
+                                [ {
+                                    stack:  [
+                                        'Numero',
+                                        { text:' ', style: 'numberUs' },
+                                        { text:`${userHistories[uh].idHistoriaUsuario}`, style: 'numberUH'},
+                                        { text:' ', style: 'numberUs' },
+                                    ]
+                                }, {
+                                    stack:  [
+                                        'Nombre',
+                                        { text:' ', style: 'numberUs' },
+                                        { text:' ', style: 'numberUs' },
+                                        { text:' ', style: 'numberUs' },
+                                        { text:' ', style: 'numberUs' },
+                                        { text:' ', style: 'numberUs' },
+                                        { text:`${userHistories[uh].nombre}`, style: 'numberUs' },
 
+                                    ],  colSpan:2, rowSpan:4, alignment: 'center'},{} ],
+                                [ {
+                                    stack:  [
+                                        'Prioridad',
+                                        { text:' ', style: 'numberUs' },
+                                        { text:`${userHistories[uh].prioridad}`, style: 'numberUs'},
+                                        { text:' ', style: 'numberUs' },
+                                    ]
+                                }, {}
                                 ],
-                                colSpan: 2,
-                                rowSpan: 4,
-                                alignment: 'center'
-                            }, {}],
-                            [{
-                                stack: [
-                                    'Prioridad',
-                                    {
-                                        text: ' ',
-                                        style: 'numberUs'
-                                    },
-                                    {
-                                        text: `${userHistories[uh].prioridad}`,
-                                        style: 'numberUs'
-                                    },
-                                    {
-                                        text: ' ',
-                                        style: 'numberUs'
-                                    },
-                                ]
-                            }, {}],
-                            [{
-                                stack: [
-                                    'Puntos Estimados',
-                                    {
-                                        text: ' ',
-                                        style: 'numberUs'
-                                    },
-                                    {
-                                        text: `${userHistories[uh].puntaje}`,
-                                        style: 'numberUs'
-                                    },
-                                    {
-                                        text: ' ',
-                                        style: 'numberUs'
-                                    },
-                                ]
-                            }, {}],
-                            [{
-                                stack: [
-                                    'Modificado por',
-                                    {
-                                        text: ' ',
-                                        style: 'numberUs'
-                                    },
-                                    {
-                                        text: `User`,
-                                        style: 'numberUs'
-                                    },
-                                    {
-                                        text: ' ',
-                                        style: 'numberUs'
-                                    },
-                                ]
-                            }, {}],
-                            [{
+                                [ {
+                                    stack:  [
+                                        'Puntos Estimados',
+                                        { text:' ', style: 'numberUs' },
+                                        { text:`${userHistories[uh].puntaje}`, style: 'numberUs'},
+                                        { text:' ', style: 'numberUs' },
+                                    ]
+                                }, {}],
+                                [ {
+                                    stack:  [
+                                        'Modificado por',
+                                        { text:' ', style: 'numberUs' },
+                                        { text:`User`, style: 'numberUs'},
+                                        { text:' ', style: 'numberUs' },
+                                    ]
+                                }, {}],
+                                [ {
 
-                                stack: [
-                                    'Descripcion',
-                                    {
-                                        text: ' ',
-                                        style: 'numberUs'
-                                    },
-                                    {
-                                        text: `Como ${userHistories[uh].rol} quiere ${userHistories[uh].funcionalidad} para ${userHistories[uh].resultado} `,
-                                        style: 'description'
-                                    },
-                                    {
-                                        text: ' ',
-                                        style: 'numberUs'
-                                    },
-                                ],
-                                colSpan: 3
-                            }, {}, {}]
+                                    stack:  [
+                                        'Descripcion',
+                                        { text:' ', style: 'numberUs' },
+                                        { text:`Como ${userHistories[uh].rol} quiere ${userHistories[uh].funcionalidad} para ${userHistories[uh].resultado} `, style: 'description'},
+                                        { text:' ', style: 'numberUs' },
+                                    ],
+                                    colSpan:3}, {},{}]
 
-                        ]
+                            ]
+                        }
                     }
-                }],
+                ],
                 styles: {
                     header: {
                         fontSize: 17,
                         bold: true,
-                        margin: [10, 10, 10, 10]
+                        margin: [10,10,10, 10]
                     },
                     tableHeader: {
                         bold: true,
@@ -610,187 +467,18 @@ exports.downloadPromise = async function (req, res) {
                     },
                 },
             }
-            if (user[0].nombre != null) {
-                docDefinition = {
-                    content: [{
-                        color: '#444',
-                        style: 'header',
-                        table: {
-                            heights: ['*', 120, 70, 70, 70, 100],
-                            widths: [170, '*', 300],
-                            headerRows: 1,
-                            body: [
-                                [{
-                                    text: "Header",
-                                    colSpan: 3,
-                                    alignment: 'center'
-                                }, {}, {}],
-                                [{
-                                    stack: [
-                                        'Numero',
-                                        {
-                                            text: ' ',
-                                            style: 'numberUs'
-                                        },
-                                        {
-                                            text: `${userHistories[uh].idHistoriaUsuario}`,
-                                            style: 'numberUH'
-                                        },
-                                        {
-                                            text: ' ',
-                                            style: 'numberUs'
-                                        },
-                                    ]
-                                }, {
-                                    stack: [
-                                        'Nombre',
-                                        {
-                                            text: ' ',
-                                            style: 'numberUs'
-                                        },
-                                        {
-                                            text: ' ',
-                                            style: 'numberUs'
-                                        },
-                                        {
-                                            text: ' ',
-                                            style: 'numberUs'
-                                        },
-                                        {
-                                            text: ' ',
-                                            style: 'numberUs'
-                                        },
-                                        {
-                                            text: ' ',
-                                            style: 'numberUs'
-                                        },
-                                        {
-                                            text: `${userHistories[uh].nombre}`,
-                                            style: 'numberUs'
-                                        },
-
-                                    ],
-                                    colSpan: 2,
-                                    rowSpan: 4,
-                                    alignment: 'center'
-                                }, {}],
-                                [{
-                                    stack: [
-                                        'Prioridad',
-                                        {
-                                            text: ' ',
-                                            style: 'numberUs'
-                                        },
-                                        {
-                                            text: `${userHistories[uh].prioridad}`,
-                                            style: 'numberUs'
-                                        },
-                                        {
-                                            text: ' ',
-                                            style: 'numberUs'
-                                        },
-                                    ]
-                                }, {}],
-                                [{
-                                    stack: [
-                                        'Puntos Estimados',
-                                        {
-                                            text: ' ',
-                                            style: 'numberUs'
-                                        },
-                                        {
-                                            text: `${userHistories[uh].puntaje}`,
-                                            style: 'numberUs'
-                                        },
-                                        {
-                                            text: ' ',
-                                            style: 'numberUs'
-                                        },
-                                    ]
-                                }, {}],
-                                [{
-                                    stack: [
-                                        'Modificado por',
-                                        {
-                                            text: ' ',
-                                            style: 'numberUs'
-                                        },
-                                        {
-                                            text: `${user[0].nombre} ${user[0].apellido}`,
-                                            style: 'numberUs'
-                                        },
-                                        {
-                                            text: ' ',
-                                            style: 'numberUs'
-                                        },
-                                    ]
-                                }, {}],
-                                [{
-
-                                    stack: [
-                                        'Descripcion',
-                                        {
-                                            text: ' ',
-                                            style: 'numberUs'
-                                        },
-                                        {
-                                            text: `Como ${userHistories[uh].rol} quiere ${userHistories[uh].funcionalidad} para ${userHistories[uh].resultado} `,
-                                            style: 'description'
-                                        },
-                                        {
-                                            text: ' ',
-                                            style: 'numberUs'
-                                        },
-                                    ],
-                                    colSpan: 3
-                                }, {}, {}]
-
-                            ]
-                        }
-                    }],
-                    styles: {
-                        header: {
-                            fontSize: 17,
-                            bold: true,
-                            margin: [10, 10, 10, 10]
-                        },
-                        tableHeader: {
-                            bold: true,
-                            fontSize: 13,
-                            color: 'black'
-                        },
-                        numberUs: {
-                            bold: true,
-                            fontSize: 20,
-                            color: 'black',
-                            alignment: 'center'
-                        },
-                        numberUH: {
-                            bold: true,
-                            fontSize: 40,
-                            color: 'black',
-                            alignment: 'center'
-                        },
-                        description: {
-                            color: 'black',
-                            fontSize: 15,
-                            alignment: 'center'
-                        },
-                    },
-                }
-            }
             arrPdfUserHistories.push(docDefinition)
         }
         res.json(arrPdfUserHistories);
         console.log(arrPdfUserHistories)
-    } catch (e) {
+    }catch (e){
         console.log(e)
     }
 };
 
 exports.getByIdProject = (req, res) => {
     HistoriaUsuario.findByIdProject(req.params.id, function (err, userHistories) {
-        if (err)
+        if(err)
             res.send(err);
         res.json(userHistories);
     })

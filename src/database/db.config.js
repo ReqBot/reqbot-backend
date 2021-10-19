@@ -9,7 +9,7 @@ if (debug) {
     database: "bdreqbot",
     user: "root",
     password: "root"
-  })
+  });
 } else {
   var dbConn = mysql.createPool({
     connectionLimit: 100,
@@ -20,12 +20,9 @@ if (debug) {
   });
 }
 
-
-
 dbConn.getConnection(function (err) {
   if (err) throw err;
   console.log("Database connected!");
 });
-
 
 module.exports = dbConn;

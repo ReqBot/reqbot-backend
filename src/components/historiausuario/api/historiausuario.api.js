@@ -27,7 +27,6 @@ router.get('/ultimoidentificador', historiausuarioController.getMaxIdentifier);
 // Get user histories with id project
 router.get('/project/:id', historiausuarioController.getByIdProject);
 
-
 router.get('/organizacion/:id', historiausuarioController.findByOrganizacion);
 
 //List all HistoriaUsuario by Proyecto ASC
@@ -69,7 +68,5 @@ router.delete('/:id', historiausuarioController.delete);
 router.get('/inactive/:id', historiausuarioController.changeToInactive);
 
 router.get('/delete/:id', historiausuarioController.changeStateToDelete);
-
-
 
 module.exports = router

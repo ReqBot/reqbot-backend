@@ -137,7 +137,6 @@ HistoriaUsuario.findByLastUserStorie = function (id, result) {
 };
 
 
-
 HistoriaUsuario.update = function (id, historiausuario, result) {
     dbConn.query("UPDATE historiausuario SET nombre=?,rol=?,funcionalidad=?,resultado=?,fechaModificacion=?,modificadoPor=?, \n\
     idProyecto=?, estado=?, identificador=?, version=?, prioridad=?, puntaje=?  WHERE idHistoriaUsuario = ?",
@@ -189,7 +188,7 @@ HistoriaUsuario.changeStateToInactive = function (id, result) {
 };
 
 HistoriaUsuario.changeStateToDelete = function (id, result) {
-    dbConn.query("UPDATE historiausuario SET `estado` = 'Eliminado' WHERE (`idHistoriaUsuario` = ?);",[id], (err, res) => {
+    dbConn.query("UPDATE historiausuario SET estado = 'Eliminado' WHERE identificador = ?",[id], (err, res) => {
         if (err) {
             console.log("error: ", err)
             result(null,err)

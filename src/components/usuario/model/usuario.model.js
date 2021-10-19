@@ -171,7 +171,7 @@ Usuario.changePassword = function (user,result) {
 
 Usuario.findByIdPromise = async function (id) {
     return new  Promise( async (resolve,reject) => {
-        dbConn.query("Select * from usuario where idusuario = ? and estado!='Eliminado'", id, function (err, res) {
+        dbConn.query("Select * from usuario where idusuario = ?", id, function (err, res) {
             if (err) {
                 console.log("error: ", err);
                 reject(err);

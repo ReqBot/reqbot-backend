@@ -366,6 +366,9 @@ exports.download = function (req, res) {
 exports.downloadPromise = async function (req, res) {
     try {
         var userHistories = await HistoriaUsuario.findByIdProjectPromise(req.params.id);
+        
+        console.log(userHistories)
+        
         var arrPdfUserHistories = [];
         for (let uh in userHistories) {
             var user = await Usuario.findByIdPromise(userHistories[uh].modificadoPor)
@@ -419,7 +422,7 @@ exports.downloadPromise = async function (req, res) {
                                     stack:  [
                                         'Modificado por',
                                         { text:' ', style: 'numberUs' },
-                                        { text:`${user[0].nombre} ${user[0].apellido}`, style: 'numberUs'},
+                                        { text:`asd`, style: 'numberUs'},
                                         { text:' ', style: 'numberUs' },
                                     ]
                                 }, {}],

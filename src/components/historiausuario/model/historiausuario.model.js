@@ -313,7 +313,7 @@ HistoriaUsuario.findByIdProject = function (id, result) {
 
 HistoriaUsuario.findByIdProjectPromise = async function (id) {
     return new  Promise( async (resolve,reject) => {
-        dbConn.query("Select * from historiausuario where idProyecto = ? and historiausuario.estado!='Eliminado'", id, function (err, res) {
+        dbConn.query("Select * from historiausuario where idProyecto = ? and estado!='Eliminado'", id, function (err, res) {
             if (err) {
                 console.log("error: ", err);
                 return reject(err);
@@ -322,11 +322,10 @@ HistoriaUsuario.findByIdProjectPromise = async function (id) {
             }
         });
     })
-
 };
 
 HistoriaUsuario.getMaxIdentifier = function (result) {
-    dbConn.query('SELECT MAX(identificador) as identificador FROM historiausuario and estado!="Eliminado"', function (err, res) {
+    dbConn.query('SELECT MAX(identificador) as identificador FROM historiausuario where estado!="Eliminado"', function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);

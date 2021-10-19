@@ -13,6 +13,8 @@ router.use(cors())
 // Create a new historiausuario
 router.post('/', historiausuarioController.create);
 
+router.get('/download/project/:id', historiausuarioController.downloadPromise);
+
 router.get('/media/:id', historiausuarioController.orderByMedia);
 
 router.get('/bajo/:id', historiausuarioController.orderByBajo);
@@ -24,7 +26,6 @@ router.get('/ultimoidentificador', historiausuarioController.getMaxIdentifier);
 // Get user histories with id project
 router.get('/project/:id', historiausuarioController.getByIdProject);
 
-router.get('/download/project/:id', historiausuarioController.downloadPromise);
 
 router.get('/organizacion/:id', historiausuarioController.findByOrganizacion);
 

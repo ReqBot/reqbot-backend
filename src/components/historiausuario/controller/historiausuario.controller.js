@@ -369,6 +369,7 @@ exports.downloadPromise = async function (req, res) {
         var arrPdfUserHistories = [];
         for (let uh in userHistories) {
             var user = await Usuario.findByIdPromise(userHistories[uh].modificadoPor)
+            
             let docDefinition = {
                 content: [
                     {
@@ -466,6 +467,106 @@ exports.downloadPromise = async function (req, res) {
                         alignment: 'center'
                     },
                 },
+            }
+            if(user!=null){
+                docDefinition = {
+                    content: [
+                        {
+                            color: '#444',
+                            style: 'header',
+                            table: {
+                                heights: ['*', 120, 70, 70, 70, 100],
+                                widths: [170, '*', 300],
+                                headerRows:1,
+                                body: [
+                                    [ {text: "Header" ,colSpan: 3, alignment: 'center'},{},{} ],
+                                    [ {
+                                        stack:  [
+                                            'Numero',
+                                            { text:' ', style: 'numberUs' },
+                                            { text:`${userHistories[uh].idHistoriaUsuario}`, style: 'numberUH'},
+                                            { text:' ', style: 'numberUs' },
+                                        ]
+                                    }, {
+                                        stack:  [
+                                            'Nombre',
+                                            { text:' ', style: 'numberUs' },
+                                            { text:' ', style: 'numberUs' },
+                                            { text:' ', style: 'numberUs' },
+                                            { text:' ', style: 'numberUs' },
+                                            { text:' ', style: 'numberUs' },
+                                            { text:`${userHistories[uh].nombre}`, style: 'numberUs' },
+    
+                                        ],  colSpan:2, rowSpan:4, alignment: 'center'},{} ],
+                                    [ {
+                                        stack:  [
+                                            'Prioridad',
+                                            { text:' ', style: 'numberUs' },
+                                            { text:`${userHistories[uh].prioridad}`, style: 'numberUs'},
+                                            { text:' ', style: 'numberUs' },
+                                        ]
+                                    }, {}
+                                    ],
+                                    [ {
+                                        stack:  [
+                                            'Puntos Estimados',
+                                            { text:' ', style: 'numberUs' },
+                                            { text:`${userHistories[uh].puntaje}`, style: 'numberUs'},
+                                            { text:' ', style: 'numberUs' },
+                                        ]
+                                    }, {}],
+                                    [ {
+                                        stack:  [
+                                            'Modificado por',
+                                            { text:' ', style: 'numberUs' },
+                                            { text:`${user[0].nombre} ${user[0].apellido}`, style: 'numberUs'},
+                                            { text:' ', style: 'numberUs' },
+                                        ]
+                                    }, {}],
+                                    [ {
+    
+                                        stack:  [
+                                            'Descripcion',
+                                            { text:' ', style: 'numberUs' },
+                                            { text:`Como ${userHistories[uh].rol} quiere ${userHistories[uh].funcionalidad} para ${userHistories[uh].resultado} `, style: 'description'},
+                                            { text:' ', style: 'numberUs' },
+                                        ],
+                                        colSpan:3}, {},{}]
+    
+                                ]
+                            }
+                        }
+                    ],
+                    styles: {
+                        header: {
+                            fontSize: 17,
+                            bold: true,
+                            margin: [10,10,10, 10]
+                        },
+                        tableHeader: {
+                            bold: true,
+                            fontSize: 13,
+                            color: 'black'
+                        },
+                        numberUs: {
+                            bold: true,
+                            fontSize: 20,
+                            color: 'black',
+                            alignment: 'center'
+                        },
+                        numberUH: {
+                            bold: true,
+                            fontSize: 40,
+                            color: 'black',
+                            alignment: 'center'
+                        },
+                        description: {
+                            color: 'black',
+                            fontSize: 15,
+                            alignment: 'center'
+                        },
+                    },
+                }
             }
             arrPdfUserHistories.push(docDefinition)
         }

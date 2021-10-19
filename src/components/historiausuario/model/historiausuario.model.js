@@ -299,7 +299,9 @@ HistoriaUsuario.orderByDesc = function (id, result) {
 
 
 HistoriaUsuario.findByIdProject = function (id, result) {
-    dbConn.query("Select * from historiausuario where idProyecto = ? and historiausuario.estado!='Eliminado' ", id, function (err, res) {
+    dbConn.query("SELECT nombre,idHistoriaUsuario,rol,funcionalidad,resultado,fechaModificacion,modificadoPor,idProyecto,estado,identificador, \n\
+    MAX(version) version, prioridad , puntaje FROM historiausuario where estado!='Eliminado' and idProyecto = ? and historiausuario.estado!='Eliminado' \n\
+        GROUP BY identificador ", id, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(err, null);

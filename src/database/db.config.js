@@ -1,22 +1,22 @@
-var mysql = require('mysql');
+var mysql = require("mysql2");
 
-var debug = true
+var debug = true;
 
 if (debug) {
   var dbConn = mysql.createPool({
     connectionLimit: 100,
-    host: "localhost",
-    database: "bdreqbot",
-    user: "root",
-    password: "root"
+    host: process.env.DATABASE_LOCAL_HOST,
+    database: process.env.DATABASE_LOCAL_DATABASE,
+    user: process.env.DATABASE_LOCAL_USER,
+    password: process.env.DATABASE_LOCAL_PASSWORD,
   });
 } else {
   var dbConn = mysql.createPool({
     connectionLimit: 100,
-    host: "us-cdbr-east-04.cleardb.com",
-    database: "heroku_5b6792719729bc7",
-    user: "b184d7b02f4177",
-    password: "fdb5cb53"
+    host: process.env.DATABASE_REMOTE_HOST,
+    database: process.env.DATABASE_REMOTE_DATABASE,
+    user: process.env.DATABASE_REMOTE_USER,
+    password: process.env.DATABASE_REMOTE_PASSWORD,
   });
 }
 

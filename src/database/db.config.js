@@ -1,6 +1,6 @@
 var mysql = require("mysql2");
 
-var debug = true;
+var debug = false;
 
 if (debug) {
   var dbConn = mysql.createPool({
